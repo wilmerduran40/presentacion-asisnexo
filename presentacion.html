@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AsisNexo CONTROL — Sistema de Control de Asistencia Biométrico</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js CDN for live dashboard stats -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            800: '#3730a3',
+                            900: '#312e81',
+                        },
+                        tealBrand: {
+                            400: '#2dd4bf',
+                            500: '#14b8a6',
+                            600: '#0d9488'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(229, 231, 235, 0.8);
+        }
+        .hero-gradient {
+            background: radial-gradient(circle at 50% -20%, #4f46e5 0%, #1e1b4b 70%, #0f172a 100%);
+        }
+        .pulse-live {
+            box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+            animation: pulse-ring 1.8s infinite cubic-bezier(0.66, 0, 0, 1);
+        }
+        @keyframes pulse-ring {
+            to {
+                box-shadow: 0 0 0 12px rgba(34, 197, 94, 0);
+            }
+        }
+    </style>
+</head>
+<body class="font-sans text-slate-800 bg-slate-50 antialiased selection:bg-brand-500 selection:text-white">
+
+    <!-- Sticky Header Navigation -->
+    <header class="sticky top-0 z-50 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Brand Logo -->
+                <a href="#" class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-500 to-tealBrand-400 flex items-center justify-center text-white text-xl font-black shadow-lg shadow-brand-500/30">
+                        <i class="fa-solid fa-clock-rotate-left"></i>
+                    </div>
+                        <span class="text-2xl font-extrabold tracking-tight bg-gradient-to-r from-white via-slate-100 to-slate-400 bg-clip-text text-transparent">
+                        AsisNexo <span class="text-tealBrand-400">CONTROL</span>
+                    </span>
+                </a>
+
+                <!-- Desktop Menu -->
+                <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+                    <a href="#caracteristicas" class="hover:text-white transition">Características</a>
+                    <a href="#demo" class="hover:text-white transition">Demo Interactivo</a>
+                    <a href="#dispositivo" class="hover:text-white transition">Terminal Biométrica</a>
+                    <a href="#precios" class="hover:text-white transition">Plan Único</a>
+                    <a href="#faq" class="hover:text-white transition">Preguntas Frecuentes</a>
+                </nav>
+
+                <!-- Header Actions -->
+                <div class="hidden md:flex items-center gap-4">
+                    <a href="http://demo.asisnexo.com/login.html" class="text-sm font-semibold text-slate-300 hover:text-white px-4 py-2 rounded-lg transition">
+                        Portal Web
+                    </a>
+                    <a href="#contacto" class="bg-gradient-to-r from-brand-600 to-tealBrand-500 hover:from-brand-500 hover:to-tealBrand-400 text-white text-sm font-semibold px-5 py-2.5 rounded-xl shadow-md hover:shadow-indigo-500/25 transition transform active:scale-95">
+                        Solicitar Cotización
+                    </a>
+                </div>
+
+                <!-- Mobile menu button -->
+                <button id="mobile-menu-btn" class="md:hidden text-slate-300 hover:text-white text-2xl p-2 focus:outline-none">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-slate-950 border-b border-slate-800 px-4 pt-2 pb-6 space-y-3">
+            <a href="#caracteristicas" class="block py-2 text-slate-300 hover:text-white font-medium border-b border-slate-800/50">Características</a>
+            <a href="#demo" class="block py-2 text-slate-300 hover:text-white font-medium border-b border-slate-800/50">Demo Interactivo</a>
+            <a href="#dispositivo" class="block py-2 text-slate-300 hover:text-white font-medium border-b border-slate-800/50">Terminal Biométrica</a>
+            <a href="#precios" class="block py-2 text-slate-300 hover:text-white font-medium border-b border-slate-800/50">Plan Único</a>
+            <a href="#faq" class="block py-2 text-slate-300 hover:text-white font-medium">Preguntas Frecuentes</a>
+            <div class="pt-4 flex flex-col gap-2">
+                <a href="#contacto" class="w-full text-center bg-brand-600 hover:bg-brand-500 text-white font-semibold py-3 rounded-xl transition">
+                    Solicitar Cotización
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative hero-gradient text-white pt-16 pb-24 md:pt-24 md:pb-36 overflow-hidden">
+        <!-- Background Grid Decoration -->
+        <div class="absolute inset-0 bg-[linear-gradient(to_right,#1e293b15_1px,transparent_1px),linear-gradient(to_bottom,#1e293b15_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
+
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <!-- Badge -->
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-800/80 border border-slate-700 text-tealBrand-400 text-xs sm:text-sm font-semibold mb-8 shadow-inner">
+                <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse"></span>
+                <span>Promoción Lanzamiento — Plan único $30/mes sin límite de usuarios</span>
+            </div>
+
+            <h1 class="text-4xl sm:text-6xl font-black tracking-tight leading-tight max-w-4xl mx-auto">
+                Automatiza la Asistencia de tu Empresa<br class="hidden sm:inline">
+                <span class="bg-gradient-to-r from-tealBrand-400 via-indigo-300 to-brand-500 bg-clip-text text-transparent">
+                    Sin Faltas ni Suplantaciones
+                </span>
+            </h1>
+
+            <p class="mt-6 text-lg sm:text-xl text-slate-300 max-w-2xl mx-auto font-normal leading-relaxed">
+                Elimina las hojas de papel y planillas manuales. Registro con huella dactilar de precisión, sincronización en tiempo real con el panel administrativo y alertas instantáneas en Telegram.
+            </p>
+
+            <!-- Action Buttons -->
+            <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+                <a href="#contacto" class="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-brand-600 to-tealBrand-500 hover:from-brand-500 hover:to-tealBrand-400 text-white font-bold rounded-2xl shadow-xl shadow-brand-600/30 transition transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-3">
+                    <i class="fa-solid fa-paper-plane"></i>
+                    Solicitar Cotización
+                </a>
+                <a href="#demo" class="w-full sm:w-auto px-8 py-4 bg-slate-800/80 hover:bg-slate-700/80 text-white font-semibold rounded-2xl border border-slate-700 transition flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-play"></i>
+                    Probar Simulador Biométrico
+                </a>
+            </div>
+
+            <!-- Stats Bar -->
+            <div class="mt-16 grid grid-cols-2 md:grid-cols-3 gap-6 max-w-4xl mx-auto border-t border-slate-800/80 pt-10 text-left">
+                <div class="bg-slate-800/40 p-4 rounded-xl border border-slate-700/50 text-center">
+                    <div class="text-3xl font-extrabold text-tealBrand-400">99.9%</div>
+                    <div class="text-xs text-slate-400 mt-1">Precisión Biométrica</div>
+                </div>
+                <div class="bg-slate-800/40 p-4 rounded-xl border border-slate-700/50 text-center">
+                    <div class="text-3xl font-extrabold text-indigo-400">&lt; 1 Seg</div>
+                    <div class="text-xs text-slate-400 mt-1">Tiempo de Marcaje</div>
+                </div>
+                <div class="bg-slate-800/40 p-4 rounded-xl border border-slate-700/50 text-center">
+                    <div class="text-3xl font-extrabold text-tealBrand-400">Cloud 24/7</div>
+                    <div class="text-xs text-slate-400 mt-1">Acceso Multi-sucursal</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Features Section -->
+    <section id="caracteristicas" class="py-20 bg-slate-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-brand-600 text-sm font-bold tracking-wider uppercase bg-brand-50 px-3 py-1 rounded-full border border-brand-100">Tecnología de Vanguardia</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-3">Todo lo que necesitas para un control impecable</h2>
+                <p class="text-slate-600 mt-4 text-lg">Olvídate de procesos arcaicos. Diseñado para empresas que buscan orden, puntualidad y reducción de costos operativos.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Feature 1 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all border border-slate-200 group">
+                    <div class="w-14 h-14 rounded-2xl bg-indigo-50 group-hover:bg-brand-600 text-brand-600 group-hover:text-white transition flex items-center justify-center text-2xl mb-6 shadow-sm">
+                        <i class="fa-solid fa-fingerprint"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">Marcaje Biométrico de Precisión</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        El empleado coloca el dedo en el lector y en menos de 1 segundo se valida su identidad sin margen de suplantación ni fraude.
+                    </p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all border border-slate-200 group">
+                    <div class="w-14 h-14 rounded-2xl bg-teal-50 group-hover:bg-tealBrand-500 text-tealBrand-600 group-hover:text-white transition flex items-center justify-center text-2xl mb-6 shadow-sm">
+                        <i class="fa-solid fa-chart-pie"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">Dashboard en Tiempo Real</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Visualiza desde cualquier lugar quién ya asistió, quién llegó con retraso y quién faltó en el día en una vista simplificada.
+                    </p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all border border-slate-200 group">
+                    <div class="w-14 h-14 rounded-2xl bg-indigo-50 group-hover:bg-brand-600 text-brand-600 group-hover:text-white transition flex items-center justify-center text-2xl mb-6 shadow-sm">
+                        <i class="fa-solid fa-file-export"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">Reportes Excel y PDF</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Exporta con 1 solo clic los acumulados de horas laboradas, faltas e inasistencias listos para tu departamento de nómina.
+                    </p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all border border-slate-200 group">
+                    <div class="w-14 h-14 rounded-2xl bg-teal-50 group-hover:bg-tealBrand-500 text-tealBrand-600 group-hover:text-white transition flex items-center justify-center text-2xl mb-6 shadow-sm">
+                        <i class="fa-solid fa-calculator"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">Cálculo de Horas Extra</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Configura turnos rotativos, días feriados y tolerancia de minutos. El sistema cuantifica automáticamente el tiempo adicional.
+                    </p>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all border border-slate-200 group">
+                    <div class="w-14 h-14 rounded-2xl bg-indigo-50 group-hover:bg-brand-600 text-brand-600 group-hover:text-white transition flex items-center justify-center text-2xl mb-6 shadow-sm">
+                        <i class="fa-brands fa-telegram"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">Bot de Notificaciones Telegram</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Recibe notificaciones instantáneas en tu canal administrativo de Telegram ante cualquier retraso o marcaje fuera de horario.
+                    </p>
+                </div>
+
+            </div>
+
+            <!-- API & Integraciones extra row -->
+            <div class="mt-8 grid md:grid-cols-3 gap-8">
+               <!-- <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all border border-slate-200 group">
+                    <div class="w-14 h-14 rounded-2xl bg-teal-50 group-hover:bg-tealBrand-500 text-tealBrand-600 group-hover:text-white transition flex items-center justify-center text-2xl mb-6 shadow-sm">
+                        <i class="fa-solid fa-plug"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">API REST para Nómina</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Conecta directamente con tu ERP o sistema de nómina mediante API REST documentada. Sincroniza horas, ausencias y horas extra automáticamente.
+                    </p>
+                </div>-->
+
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all border border-slate-200 group">
+                    <div class="w-14 h-14 rounded-2xl bg-indigo-50 group-hover:bg-brand-600 text-brand-600 group-hover:text-white transition flex items-center justify-center text-2xl mb-6 shadow-sm">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">Respaldo Offline</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        El dispositivo almacena localmente los marcajes si hay caída de internet y sincroniza automáticamente al restablecerse la conexión.
+                    </p>
+                </div>
+
+                <div class="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all border border-slate-200 group">
+                    <div class="w-14 h-14 rounded-2xl bg-teal-50 group-hover:bg-tealBrand-500 text-tealBrand-600 group-hover:text-white transition flex items-center justify-center text-2xl mb-6 shadow-sm">
+                        <i class="fa-solid fa-headset"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">Soporte por WhatsApp</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Atención personalizada en horario laboral con respuesta rápida para resolver cualquier incidencia técnica o administrativa.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Demo Section (Interactive Web App Sandbox) -->
+    <section id="demo" class="py-20 bg-slate-900 text-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <span class="text-tealBrand-400 text-xs font-bold tracking-widest uppercase bg-slate-800 px-3 py-1 rounded-full border border-slate-700">Simulador Biométrico</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold mt-3">Experimenta el Marcaje por Huella Dactilar</h2>
+                <p class="text-slate-400 mt-2">Prueba cómo funciona el sensor biométrico con nuestro servidor y cómo se transmite la alerta instantánea al bot de Telegram.</p>
+            </div>
+
+            <!-- Sandbox Interface Window -->
+            <div class="bg-slate-950 border border-slate-800 rounded-3xl shadow-2xl overflow-hidden max-w-5xl mx-auto">
+                <!-- Navigation Tabs Bar inside Sandbox -->
+                <div class="bg-slate-900 px-6 py-4 border-b border-slate-800 flex flex-wrap items-center justify-between gap-4">
+                    <div class="flex items-center gap-2">
+                        <span class="w-3 h-3 rounded-full bg-rose-500"></span>
+                        <span class="w-3 h-3 rounded-full bg-amber-500"></span>
+                        <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+                        <span class="ml-3 text-xs font-semibold text-slate-400 uppercase tracking-wider">Entorno de Prueba Live</span>
+                    </div>
+                    <!-- View Mode Tabs -->
+                    <div class="flex bg-slate-800 p-1 rounded-xl">
+                        <button id="btn-tab-clock" onclick="switchDemoTab('clock')" class="px-4 py-1.5 rounded-lg text-xs font-bold transition bg-brand-600 text-white shadow">
+                            <i class="fa-solid fa-fingerprint mr-1.5"></i> Terminal Biométrica
+                        </button>
+                        <button id="btn-tab-admin" onclick="switchDemoTab('admin')" class="px-4 py-1.5 rounded-lg text-xs font-bold transition text-slate-400 hover:text-white">
+                            <i class="fa-solid fa-chart-line mr-1.5"></i> Panel de Administración
+                        </button>
+                    </div>
+                </div>
+
+                <!-- TAB 1: Terminal Fichaje (Worker View) -->
+                <div id="demo-tab-clock" class="p-6 md:p-10">
+                    <div class="grid md:grid-cols-12 gap-8 items-center">
+                        <!-- Left: Mock Biometric Scanner -->
+                        <div class="md:col-span-5 bg-slate-900 border border-slate-800 rounded-2xl p-6 text-center shadow-lg relative">
+                            <div class="text-xs font-bold text-slate-400 mb-2 flex justify-between items-center">
+                                <span>TERMINAL BIOMÉTRICA #TRM-042</span>
+                                <span class="text-emerald-400 flex items-center gap-1">
+                                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> ONLINE
+                                </span>
+                            </div>
+
+                            <!-- Fingerprint Scanner Graphic -->
+                            <div class="w-24 h-24 mx-auto rounded-full bg-slate-950 border-2 border-indigo-500/40 flex items-center justify-center my-4 shadow-lg shadow-indigo-500/20">
+                                <i class="fa-solid fa-fingerprint text-4xl text-indigo-400"></i>
+                            </div>
+                            <p class="text-xs text-slate-400 mb-1">Coloque la huella sobre el sensor</p>
+
+                            <!-- Clock Display -->
+                            <div id="live-clock-time" class="text-2xl font-black text-white font-mono tracking-wider py-1">
+                                00:00:00
+                            </div>
+                            <div id="live-clock-date" class="text-xs text-slate-400 mb-4 font-medium">
+                                Cargando fecha...
+                            </div>
+
+                            <!-- Employee ID Form -->
+                            <div class="space-y-4">
+                                <div class="text-left">
+                                    <label class="block text-xs text-slate-400 font-semibold mb-1">Empleado de Prueba:</label>
+                                    <select id="sim-employee" class="w-full bg-slate-800 border border-slate-700 text-white text-sm rounded-xl px-3 py-2.5 focus:outline-none focus:border-brand-500">
+                                        <option value="EMP-101|Carlos Mendoza|Desarrollo Software">EMP-101 - Carlos Mendoza (Sede Central)</option>
+                                        <option value="EMP-102|Ana Sofía Rivas|Recursos Humanos">EMP-102 - Ana Sofía Rivas (Sede Central)</option>
+                                        <option value="EMP-103|Roberto Gómez|Ventas">EMP-103 - Roberto Gómez (Teletrabajo)</option>
+                                        <option value="EMP-104|Lucía Fernández|Operaciones">EMP-104 - Lucía Fernández (Sede Norte)</option>
+                                    </select>
+                                </div>
+
+                                <div class="text-left">
+                                    <label class="block text-xs text-slate-400 font-semibold mb-1">Tipo de Evento:</label>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <button type="button" onclick="selectEventType('ENTRADA')" id="evt-ENTRADA" class="evt-btn border border-tealBrand-500 bg-tealBrand-500/20 text-tealBrand-300 font-bold py-2 rounded-lg text-xs flex items-center justify-center gap-1.5">
+                                            <i class="fa-solid fa-right-to-bracket"></i> Entrada
+                                        </button>
+                                        <button type="button" onclick="selectEventType('SALIDA')" id="evt-SALIDA" class="evt-btn border border-slate-700 bg-slate-800 text-slate-400 hover:text-white font-bold py-2 rounded-lg text-xs flex items-center justify-center gap-1.5">
+                                            <i class="fa-solid fa-right-from-bracket"></i> Salida
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <button onclick="simulateClockIn()" class="w-full bg-gradient-to-r from-tealBrand-500 to-brand-600 hover:from-tealBrand-400 hover:to-brand-500 text-white font-bold py-3.5 rounded-xl shadow-lg transition active:scale-95 flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-fingerprint text-lg"></i>
+                                    Registrar Marcaje Biométrico
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Right: Live Activity Log -->
+                        <div class="md:col-span-7">
+                            <h3 class="text-lg font-bold text-white mb-4 flex items-center justify-between">
+                                <span><i class="fa-solid fa-list-check text-brand-500 mr-2"></i> Registro de Marcajes en Directo</span>
+                                <span class="text-xs font-normal text-slate-400">Sincronizado en tiempo real</span>
+                            </h3>
+
+                            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 h-72 overflow-y-auto space-y-3" id="clock-log-list">
+                                <!-- Preloaded Sample Log Item -->
+                                <div class="bg-slate-800/60 p-3 rounded-xl border border-slate-700/60 flex items-center justify-between text-xs">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold">
+                                            <i class="fa-solid fa-check"></i>
+                                        </div>
+                                        <div>
+                                            <p class="font-bold text-slate-200">Ana Sofía Rivas <span class="text-slate-500 font-normal">(EMP-102)</span></p>
+                                            <p class="text-slate-400 text-[10px]">ENTRADA • Sede Central • Huella Dactilar</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="inline-block px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 text-[10px] font-bold">A TIEMPO</span>
+                                        <p class="text-slate-400 text-[10px] mt-0.5">08:00 AM</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Telegram Simulated Notification -->
+                            <div id="sim-telegram" class="hidden mt-4 bg-[#1e3a5f]/80 border border-sky-500/40 rounded-xl p-4 text-xs text-slate-200 flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-sky-500 text-white flex items-center justify-center shrink-0 font-bold text-sm">
+                                    <i class="fa-brands fa-telegram"></i>
+                                </div>
+                                <div>
+                                    <span class="text-sky-400 font-bold block text-[11px]">AsisNexo Bot — Alerta Telegram</span>
+                                    <span id="telegram-text" class="text-[11px] text-slate-300">Notificación enviada con éxito al canal administrativo.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 2: Dashboard Admin View -->
+                <div id="demo-tab-admin" class="p-6 md:p-10 hidden">
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                        <div class="bg-slate-900 p-4 rounded-xl border border-slate-800">
+                            <p class="text-xs text-slate-400 font-medium">Total Plantilla</p>
+                            <p class="text-2xl font-black text-white mt-1">120</p>
+                        </div>
+                        <div class="bg-slate-900 p-4 rounded-xl border border-slate-800">
+                            <p class="text-xs text-slate-400 font-medium">Presentes Hoy</p>
+                            <p class="text-2xl font-black text-emerald-400 mt-1" id="stat-presentes">112</p>
+                        </div>
+                        <div class="bg-slate-900 p-4 rounded-xl border border-slate-800">
+                            <p class="text-xs text-slate-400 font-medium">Retardos</p>
+                            <p class="text-2xl font-black text-amber-400 mt-1" id="stat-retardos">5</p>
+                        </div>
+                        <div class="bg-slate-900 p-4 rounded-xl border border-slate-800">
+                            <p class="text-xs text-slate-400 font-medium">Ausencias</p>
+                            <p class="text-2xl font-black text-rose-400 mt-1">3</p>
+                        </div>
+                    </div>
+
+                    <!-- Chart Container -->
+                    <div class="bg-slate-900 p-5 rounded-2xl border border-slate-800">
+                        <h4 class="text-sm font-bold text-slate-300 mb-4 flex items-center justify-between">
+                            <span>Puntualidad de la Semana (Comparativa)</span>
+                            <span class="text-xs text-emerald-400 font-normal"><i class="fa-solid fa-arrow-trend-up mr-1"></i>+4.2% vs semana anterior</span>
+                        </h4>
+                        <div class="h-56 relative w-full">
+                            <canvas id="attendanceChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dispositivo Biométrico -->
+    <section id="dispositivo" class="py-20 bg-slate-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-brand-600 text-sm font-bold tracking-wider uppercase bg-brand-50 px-3 py-1 rounded-full border border-brand-100">Hardware Garantizado</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-3">Terminal Biométrico Plug & Play</h2>
+                <p class="text-slate-600 mt-4 text-lg">Ensamblado con componentes de alta velocidad, listo para ser instalado en la puerta o recepción de tu empresa.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm hover:shadow-lg transition text-center">
+                    <div class="w-16 h-16 rounded-2xl bg-indigo-50 text-brand-600 flex items-center justify-center mx-auto mb-6 text-2xl">
+                        <i class="fa-solid fa-microchip"></i>
+                    </div>
+                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Precio del Dispositivo</span>
+                    <div class="text-4xl font-black text-slate-900 my-2">$80 <span class="text-sm font-normal text-slate-400">USD</span></div>
+                    <p class="text-sm text-slate-500 leading-relaxed">Pago único. Incluye lector óptico de alta precisión, fuente de poder y gabinete para montaje en pared.</p>
+                </div>
+
+                <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm hover:shadow-lg transition text-center">
+                    <div class="w-16 h-16 rounded-2xl bg-teal-50 text-tealBrand-600 flex items-center justify-center mx-auto mb-6 text-2xl">
+                        <i class="fa-solid fa-gear"></i>
+                    </div>
+                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Instalación Opcional</span>
+                    <div class="text-4xl font-black text-slate-900 my-2">$15 <span class="text-sm font-normal text-slate-400">USD</span></div>
+                    <p class="text-sm text-slate-500 leading-relaxed">Configuración en sitio y sincronización con tu red WiFi. Válido hasta para 2 dispositivos por sede.</p>
+                </div>
+
+                <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm hover:shadow-lg transition text-center">
+                    <div class="w-16 h-16 rounded-2xl bg-amber-50 text-amber-500 flex items-center justify-center mx-auto mb-6 text-2xl">
+                        <i class="fa-solid fa-shield-check"></i>
+                    </div>
+                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Garantía Directa</span>
+                    <div class="text-4xl font-black text-slate-900 my-2">6 Meses</div>
+                    <p class="text-sm text-slate-500 leading-relaxed">Cobertura total por defectos de fabricación y reemplazo inmediato sin detener tu operación.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Plans Section -->
+    <section id="precios" class="py-20 bg-slate-100">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-xl mx-auto mb-12">
+                <span class="text-brand-600 text-sm font-bold tracking-wider uppercase bg-brand-50 px-3 py-1 rounded-full border border-brand-100">Promoción de Lanzamiento</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-3">Un solo plan. Sin límites.</h2>
+                <p class="text-slate-600 mt-3">Por tiempo limitado: $30/mes con usuarios, sucursales y dispositivos ilimitados. Sin cobro por persona.</p>
+            </div>
+
+            <!-- Single Plan Card -->
+            <div class="bg-gradient-to-b from-brand-50 to-white rounded-3xl border-2 border-brand-500 shadow-2xl shadow-brand-500/20 relative overflow-hidden">
+                <div class="absolute top-0 left-1/2 -translate-x-1/2 bg-gradient-to-r from-brand-500 to-tealBrand-400 text-white text-xs font-black uppercase px-6 py-1.5 rounded-b-xl tracking-wider shadow-md">
+                    Promoción Lanzamiento
+                </div>
+
+                <div class="p-10 sm:p-14 text-center mt-4">
+                    <div class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Para empresas de cualquier tamaño</div>
+                    <h3 class="text-3xl font-black text-slate-900">Plan Único</h3>
+
+                    <div class="my-8">
+                        <span class="text-6xl font-black text-slate-900">$30</span>
+                        <span class="text-xl text-slate-500 font-medium">/mes</span>
+                        <p class="text-sm text-slate-400 mt-1">Precio fijo — Sin sorpresas</p>
+                    </div>
+
+                    <!-- Unlimited Badges -->
+                    <div class="grid grid-cols-3 gap-3 mb-10">
+                        <div class="bg-brand-50 border border-brand-100 rounded-xl py-3 px-2">
+                            <div class="text-2xl text-brand-600 mb-1"><i class="fa-solid fa-users"></i></div>
+                            <span class="text-xs font-bold text-slate-700">Usuarios</span>
+                            <span class="text-xs text-brand-600 font-black block">Ilimitados</span>
+                        </div>
+                        <div class="bg-teal-50 border border-teal-100 rounded-xl py-3 px-2">
+                            <div class="text-2xl text-tealBrand-600 mb-1"><i class="fa-solid fa-building"></i></div>
+                            <span class="text-xs font-bold text-slate-700">Sucursales</span>
+                            <span class="text-xs text-tealBrand-600 font-black block">Ilimitadas</span>
+                        </div>
+                        <div class="bg-indigo-50 border border-indigo-100 rounded-xl py-3 px-2">
+                            <div class="text-2xl text-brand-600 mb-1"><i class="fa-solid fa-microchip"></i></div>
+                            <span class="text-xs font-bold text-slate-700">Dispositivos</span>
+                            <span class="text-xs text-brand-600 font-black block">Ilimitados</span>
+                        </div>
+                    </div>
+
+                    <!-- Feature Checklist -->
+                    <div class="border-t border-slate-200 pt-8 mb-8">
+                        <ul class="grid sm:grid-cols-2 gap-3 text-left max-w-lg mx-auto">
+                            <li class="flex items-center gap-2.5 text-sm text-slate-700">
+                                <i class="fa-solid fa-circle-check text-emerald-500 text-sm shrink-0"></i> Marcaje biométrico entrada/salida
+                            </li>
+                            <li class="flex items-center gap-2.5 text-sm text-slate-700">
+                                <i class="fa-solid fa-circle-check text-emerald-500 text-sm shrink-0"></i> Dashboard en tiempo real
+                            </li>
+                            <li class="flex items-center gap-2.5 text-sm text-slate-700">
+                                <i class="fa-solid fa-circle-check text-emerald-500 text-sm shrink-0"></i> Reportes Excel y PDF
+                            </li>
+                            <li class="flex items-center gap-2.5 text-sm text-slate-700">
+                                <i class="fa-solid fa-circle-check text-emerald-500 text-sm shrink-0"></i> Cálculo automático de horas extra
+                            </li>
+                            <li class="flex items-center gap-2.5 text-sm text-slate-700">
+                                <i class="fa-solid fa-circle-check text-emerald-500 text-sm shrink-0"></i> Detección de tardanzas
+                            </li>
+                            <li class="flex items-center gap-2.5 text-sm text-slate-700">
+                                <i class="fa-solid fa-circle-check text-emerald-500 text-sm shrink-0"></i> Notificaciones Telegram
+                            </li>
+                            <li class="flex items-center gap-2.5 text-sm text-slate-700">
+                                <i class="fa-solid fa-circle-check text-emerald-500 text-sm shrink-0"></i> 24/7 Acceso Cloud Multi-sucursal
+                            </li>
+                            <li class="flex items-center gap-2.5 text-sm text-slate-700">
+                                <i class="fa-solid fa-circle-check text-emerald-500 text-sm shrink-0"></i> Respaldo offline automático
+                            </li>
+                            <li class="flex items-center gap-2.5 text-sm text-slate-700">
+                                <i class="fa-solid fa-circle-check text-emerald-500 text-sm shrink-0"></i> Capacitación inicial incluida
+                            </li>
+                            <li class="flex items-center gap-2.5 text-sm text-slate-700">
+                                <i class="fa-solid fa-circle-check text-emerald-500 text-sm shrink-0"></i> Soporte WhatsApp
+                            </li>
+                        </ul>
+                    </div>
+
+                    <a href="#contacto" class="inline-block bg-gradient-to-r from-brand-600 to-tealBrand-500 hover:from-brand-500 hover:to-tealBrand-400 text-white font-extrabold text-sm px-10 py-4 rounded-2xl shadow-xl shadow-brand-500/30 transition transform hover:-translate-y-0.5 active:translate-y-0">
+                        <i class="fa-solid fa-paper-plane mr-2"></i> Contratar Plan Único
+                    </a>
+
+                    <!-- Info Footer -->
+                    <div class="mt-6 flex flex-wrap items-center justify-center gap-4 text-xs text-slate-500">
+                        <span class="flex items-center gap-1.5">
+                            <span class="w-1.5 h-1.5 rounded-full bg-brand-500"></span>
+                            Dispositivo biométrico: $80 USD pago único
+                        </span>
+                        <span class="flex items-center gap-1.5">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                            Pago trimestral: -10%
+                        </span>
+                        <span class="flex items-center gap-1.5">
+                            <span class="w-1.5 h-1.5 rounded-full bg-tealBrand-500"></span>
+                            Pago anual: -15%
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-20 bg-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="text-brand-600 text-sm font-bold tracking-wider uppercase bg-brand-50 px-3 py-1 rounded-full border border-brand-100">Resuelve tus dudas</span>
+                <h2 class="text-3xl font-extrabold text-slate-900 mt-3">Preguntas Frecuentes</h2>
+            </div>
+
+            <div class="space-y-4">
+                <!-- Question 1 -->
+                <div class="border border-slate-200 rounded-2xl overflow-hidden">
+                    <button onclick="toggleFaq(1)" class="w-full text-left p-5 bg-slate-50 font-bold text-slate-900 flex justify-between items-center focus:outline-none">
+                        <span>¿El dispositivo necesita internet continuo para registrar marcajes?</span>
+                        <i id="faq-icon-1" class="fa-solid fa-chevron-down text-slate-400 transition-transform"></i>
+                    </button>
+                    <div id="faq-ans-1" class="hidden p-5 bg-white text-slate-600 text-sm leading-relaxed border-t border-slate-100">
+                        El dispositivo debe estar conectado a internet para sincronizar los marcajes en tiempo real. Sin embargo, si hay una caída de la conexión.
+                    </div>
+                </div>
+
+                <!-- Question 2 -->
+                <div class="border border-slate-200 rounded-2xl overflow-hidden">
+                    <button onclick="toggleFaq(2)" class="w-full text-left p-5 bg-slate-50 font-bold text-slate-900 flex justify-between items-center focus:outline-none">
+                        <span>¿Cómo es el proceso de adquisición e instalación?</span>
+                        <i id="faq-icon-2" class="fa-solid fa-chevron-down text-slate-400 transition-transform"></i>
+                    </button>
+                    <div id="faq-ans-2" class="hidden p-5 bg-white text-slate-600 text-sm leading-relaxed border-t border-slate-100">
+                        Al solicitar tu cotización, te asesoramos en la elección del plan e infraestructura requerida. Adquieres los terminales biométricos ($80 USD c/u) y realizamos la configuración en la nube junto con la inducción para tu personal de RRHH.
+                    </div>
+                </div>
+
+                <!-- Question 3 -->
+                <div class="border border-slate-200 rounded-2xl overflow-hidden">
+                    <button onclick="toggleFaq(3)" class="w-full text-left p-5 bg-slate-50 font-bold text-slate-900 flex justify-between items-center focus:outline-none">
+                        <span>Tecnología accesible</span>
+                        <i id="faq-icon-3" class="fa-solid fa-chevron-down text-slate-400 transition-transform"></i>
+                    </button>
+                    <div id="faq-ans-3" class="hidden p-5 bg-white text-slate-600 text-sm leading-relaxed border-t border-slate-100">
+                        Nuestra tecnología está diseñada para ser intuitiva y fácil de usar, permitiendo a los empleados registrar sus marcajes de manera rápida y eficiente sin necesidad de capacitación extensa.
+                    </div>
+                </div>
+
+                <!-- Question 4 -->
+                <div class="border border-slate-200 rounded-2xl overflow-hidden">
+                    <button onclick="toggleFaq(4)" class="w-full text-left p-5 bg-slate-50 font-bold text-slate-900 flex justify-between items-center focus:outline-none">
+                        <span>¿Cuántos empleados puedo registrar con el plan de $30?</span>
+                        <i id="faq-icon-4" class="fa-solid fa-chevron-down text-slate-400 transition-transform"></i>
+                    </button>
+                    <div id="faq-ans-4" class="hidden p-5 bg-white text-slate-600 text-sm leading-relaxed border-t border-slate-100">
+                        ¡Ilimitados! Por promoción de lanzamiento, el plan único de $30/mes incluye usuarios, sucursales y dispositivos ilimitados. Sin cobro por empleado. Precio fijo mensual.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contacto" class="py-20 bg-slate-900 text-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-12 gap-12 items-center">
+                <div class="lg:col-span-5">
+                    <span class="text-tealBrand-400 text-xs font-bold tracking-widest uppercase bg-slate-800 px-3 py-1 rounded-full border border-slate-700">Comienza Hoy</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold mt-3">Solicita tu Cotización Personalizada</h2>
+                    <p class="text-slate-400 mt-4 leading-relaxed">
+                        Analizamos las necesidades de tu empresa y te guiamos en la implementación de terminales biométricos para tu organización.
+                    </p>
+
+                    <div class="mt-8 space-y-4 text-sm text-slate-300">
+                        <div class="flex items-center gap-3">
+                            <i class="fa-brands fa-whatsapp text-tealBrand-400 text-lg"></i>
+                            <span>+58 412 5284595</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <i class="fa-solid fa-envelope text-tealBrand-400 text-lg"></i>
+                            <span>contacto@asisnexo.com</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <i class="fa-solid fa-headset text-tealBrand-400 text-lg"></i>
+                            <span>Soporte Técnico Especializado</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form Card -->
+                <div class="lg:col-span-7 bg-slate-950 p-8 rounded-3xl border border-slate-800 shadow-2xl">
+                    <form id="contactForm" onsubmit="handleFormSubmit(event)" class="space-y-4">
+                        <div class="grid sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-1">Nombre de la Empresa *</label>
+                                <input type="text" id="form-empresa" required placeholder="Ej. Corporación ABC, C.A." class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-500">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-1">Persona de Contacto *</label>
+                                <input type="text" id="form-contacto" required placeholder="Nombre y Apellido" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-500">
+                            </div>
+                        </div>
+
+                        <div class="grid sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-1">WhatsApp / Teléfono *</label>
+                                <input type="tel" id="form-telefono" required placeholder="+58 414 1234567" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-500">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-1">Cantidad de Empleados</label>
+                                <select id="form-empleados" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-500">
+                                    <option value="5-10">5 a 10 empleados</option>
+                                    <option value="11-25" selected>11 a 25 empleados</option>
+                                    <option value="26-50">26 a 50 empleados</option>
+                                    <option value="51-100">51 a 100 empleados</option>
+                                    <option value="100+">Más de 100 empleados</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">Mensaje / Requerimiento Especial</label>
+                            <textarea id="form-mensaje" rows="3" placeholder="¿Tienes requerimientos específicos de horarios, turnos o integración?" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-500"></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full bg-gradient-to-r from-brand-600 to-tealBrand-500 hover:from-brand-500 hover:to-tealBrand-400 text-white font-bold py-4 rounded-xl transition shadow-xl active:scale-98">
+                            <i class="fa-solid fa-paper-plane mr-2"></i> Enviar Solicitud de Cotización
+                        </button>
+                    </form>
+
+                    <!-- Success Feedback Box (hidden by default) -->
+                    <div id="form-success" class="hidden p-6 bg-emerald-950/80 border border-emerald-800 text-emerald-300 rounded-2xl text-center space-y-2">
+                        <i class="fa-solid fa-circle-check text-4xl text-emerald-400"></i>
+                        <h4 class="text-lg font-bold text-white">¡Solicitud Recibida con Éxito!</h4>
+                        <p class="text-xs text-slate-300">Un asesor comercial de AsisNexo se comunicará contigo vía WhatsApp a la brevedad.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 text-slate-500 py-12 border-t border-slate-800/80 text-xs">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-3">
+                <div class="w-7 h-7 rounded-lg bg-brand-600 flex items-center justify-center text-white text-sm font-bold">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                </div>
+                <span class="text-slate-300 font-bold text-sm">AsisNexo CONTROL</span>
+                <span class="text-slate-600">| Control de Asistencia Biométrico</span>
+            </div>
+
+            <div class="flex gap-6">
+                <a href="#" class="hover:text-slate-300 transition">Términos de Servicio</a>
+                <a href="#" class="hover:text-slate-300 transition">Política de Privacidad</a>
+                <a href="#" class="hover:text-slate-300 transition">Seguridad de Datos</a>
+            </div>
+
+            <div class="text-slate-600">
+                &copy; <span id="current-year">2026</span> AsisNexo Inc. Todos los derechos reservados.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive JavaScript Logic -->
+    <script>
+        // Set dynamic current year in footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Event Type Switcher state for Demo
+        let currentEventType = 'ENTRADA';
+        function selectEventType(type) {
+            currentEventType = type;
+            const btnEntrada = document.getElementById('evt-ENTRADA');
+            const btnSalida = document.getElementById('evt-SALIDA');
+
+            if (type === 'ENTRADA') {
+                btnEntrada.className = 'evt-btn border border-tealBrand-500 bg-tealBrand-500/20 text-tealBrand-300 font-bold py-2 rounded-lg text-xs flex items-center justify-center gap-1.5';
+                btnSalida.className = 'evt-btn border border-slate-700 bg-slate-800 text-slate-400 hover:text-white font-bold py-2 rounded-lg text-xs flex items-center justify-center gap-1.5';
+            } else {
+                btnSalida.className = 'evt-btn border border-amber-500 bg-amber-500/20 text-amber-300 font-bold py-2 rounded-lg text-xs flex items-center justify-center gap-1.5';
+                btnEntrada.className = 'evt-btn border border-slate-700 bg-slate-800 text-slate-400 hover:text-white font-bold py-2 rounded-lg text-xs flex items-center justify-center gap-1.5';
+            }
+        }
+
+        // Live Digital Clock updating every second
+        function updateClock() {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            const dateStr = now.toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+            const clockEl = document.getElementById('live-clock-time');
+            const dateEl = document.getElementById('live-clock-date');
+
+            if (clockEl) clockEl.textContent = timeStr;
+            if (dateEl) dateEl.textContent = dateStr.charAt(0).toUpperCase() + dateStr.slice(1);
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Audio Beep generator using Web Audio API for interactive feedback
+        function playBeepSound() {
+            try {
+                const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                if (!AudioCtx) return;
+                const ctx = new AudioCtx();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(880, ctx.currentTime); // High pitch notification chime
+                gain.gain.setValueAtTime(0.15, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.25);
+
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start();
+                osc.stop(ctx.currentTime + 0.25);
+            } catch(e) {
+                // Audio context fallbacks silently if restricted by browser
+            }
+        }
+
+        // Simulate Clock In event in the demo sandbox
+        function simulateClockIn() {
+            const empVal = document.getElementById('sim-employee').value;
+            const [id, name, dept] = empVal.split('|');
+            const timeNow = new Date().toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+            // Play chime sound
+            playBeepSound();
+
+            const logList = document.getElementById('clock-log-list');
+
+            const isEntrada = currentEventType === 'ENTRADA';
+            const badgeBg = isEntrada ? 'bg-emerald-500/10 text-emerald-400' : 'bg-amber-500/10 text-amber-400';
+            const statusTxt = isEntrada ? 'A TIEMPO' : 'SALIDA REGISTRADA';
+            const iconClass = isEntrada ? 'fa-check text-emerald-400 bg-emerald-500/20' : 'fa-right-from-bracket text-amber-400 bg-amber-500/20';
+
+            const newItem = document.createElement('div');
+            newItem.className = 'bg-slate-800/90 p-3 rounded-xl border border-brand-500/40 flex items-center justify-between text-xs animate-pulse';
+
+            newItem.innerHTML = `
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full ${iconClass} flex items-center justify-center font-bold">
+                        <i class="fa-solid ${isEntrada ? 'fa-check' : 'fa-arrow-right-from-bracket'}"></i>
+                    </div>
+                    <div>
+                        <p class="font-bold text-white">${name} <span class="text-slate-400 font-normal">(${id})</span></p>
+                        <p class="text-slate-400 text-[10px]">${currentEventType} • ${dept} • Huella Dactilar</p>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <span class="inline-block px-2 py-0.5 rounded ${badgeBg} text-[10px] font-bold">${statusTxt}</span>
+                    <p class="text-slate-300 text-[10px] mt-0.5 font-mono">${timeNow}</p>
+                </div>
+            `;
+
+            logList.insertBefore(newItem, logList.firstChild);
+
+            setTimeout(() => {
+                newItem.classList.remove('animate-pulse');
+            }, 1000);
+
+            // Update stats counter
+            const statPresentes = document.getElementById('stat-presentes');
+            if (statPresentes && isEntrada) {
+                statPresentes.textContent = parseInt(statPresentes.textContent) + 1;
+            }
+
+            // Show Telegram notification
+            const telegramBox = document.getElementById('sim-telegram');
+            const telegramText = document.getElementById('telegram-text');
+            if (telegramBox && telegramText) {
+                telegramText.innerText = `El empleado ${name} (${dept}) acaba de registrar ${currentEventType} a las ${timeNow}. Terminal #TRM-042`;
+                telegramBox.classList.remove('hidden');
+                setTimeout(() => {
+                    telegramBox.classList.add('hidden');
+                }, 6000);
+            }
+        }
+
+        // Tab Switching inside Sandbox
+        function switchDemoTab(tab) {
+            const clockTab = document.getElementById('demo-tab-clock');
+            const adminTab = document.getElementById('demo-tab-admin');
+            const btnClock = document.getElementById('btn-tab-clock');
+            const btnAdmin = document.getElementById('btn-tab-admin');
+
+            if (tab === 'clock') {
+                clockTab.classList.remove('hidden');
+                adminTab.classList.add('hidden');
+                btnClock.className = 'px-4 py-1.5 rounded-lg text-xs font-bold transition bg-brand-600 text-white shadow';
+                btnAdmin.className = 'px-4 py-1.5 rounded-lg text-xs font-bold transition text-slate-400 hover:text-white';
+            } else {
+                clockTab.classList.add('hidden');
+                adminTab.classList.remove('hidden');
+                btnAdmin.className = 'px-4 py-1.5 rounded-lg text-xs font-bold transition bg-brand-600 text-white shadow';
+                btnClock.className = 'px-4 py-1.5 rounded-lg text-xs font-bold transition text-slate-400 hover:text-white';
+                initChart();
+            }
+        }
+
+        // Initialize Chart.js chart for Admin Dashboard tab
+        let chartInstance = null;
+        function initChart() {
+            if (chartInstance) return;
+            const ctx = document.getElementById('attendanceChart').getContext('2d');
+            chartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+                    datasets: [
+                        {
+                            label: 'Puntuales %',
+                            data: [96, 94, 98, 97, 95, 99],
+                            borderColor: '#2dd4bf',
+                            backgroundColor: 'rgba(45, 212, 191, 0.1)',
+                            fill: true,
+                            tension: 0.4,
+                            borderWidth: 3
+                        },
+                        {
+                            label: 'Tardanzas %',
+                            data: [4, 6, 2, 3, 5, 1],
+                            borderColor: '#f59e0b',
+                            backgroundColor: 'transparent',
+                            borderDash: [5, 5],
+                            tension: 0.4,
+                            borderWidth: 2
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: { color: '#94a3b8', font: { family: 'Inter', size: 11 } }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: { color: 'rgba(255,255,255,0.05)' },
+                            ticks: { color: '#94a3b8' }
+                        },
+                        y: {
+                            grid: { color: 'rgba(255,255,255,0.05)' },
+                            ticks: { color: '#94a3b8' },
+                            min: 0,
+                            max: 100
+                        }
+                    }
+                }
+            });
+        }
+
+        // FAQ Accordion Toggle
+        function toggleFaq(index) {
+            const ans = document.getElementById(`faq-ans-${index}`);
+            const icon = document.getElementById(`faq-icon-${index}`);
+
+            if (ans.classList.contains('hidden')) {
+                ans.classList.remove('hidden');
+                icon.classList.add('rotate-180');
+            } else {
+                ans.classList.add('hidden');
+                icon.classList.remove('rotate-180');
+            }
+        }
+
+        // Contact Form Handle Submit
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const form = document.getElementById('contactForm');
+            const successMsg = document.getElementById('form-success');
+
+            const empresa = document.getElementById('form-empresa').value.trim();
+            const contacto = document.getElementById('form-contacto').value.trim();
+            const telefono = document.getElementById('form-telefono').value.trim();
+            const empleados = document.getElementById('form-empleados').value;
+            const mensaje = document.getElementById('form-mensaje').value.trim() || '-';
+
+            const tgText = `\u{1f514} *Nueva Cotizaci\u00f3n*\n\n\u{1f3e2} *Empresa:* ${empresa}\n\u{1f464} *Contacto:* ${contacto}\n\u{1f4f1} *WhatsApp:* ${telefono}\n\u{1f465} *Empleados:* ${empleados}\n\u{1f4dd} *Mensaje:* ${mensaje}`;
+
+            const waText = `Hola AsisNexo, solicito cotizaci\u00f3n:%0A%0A*Empresa:* ${encodeURIComponent(empresa)}%0A*Contacto:* ${encodeURIComponent(contacto)}%0A*WhatsApp:* ${encodeURIComponent(telefono)}%0A*Empleados:* ${encodeURIComponent(empleados)}%0A*Mensaje:* ${encodeURIComponent(mensaje)}`;
+
+            fetch('https://api.telegram.org/bot8827088885:AAE11c9Gvie1ei8Ao5NC5xxqw6kAHZ7uxzo/sendMessage', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: 5875220543,
+                    text: tgText,
+                    parse_mode: 'Markdown'
+                })
+            }).then(response => response.json()).then(data => {
+                if (data.ok) {
+                    form.classList.add('hidden');
+                    successMsg.classList.remove('hidden');
+                } else {
+                    window.open(`https://wa.me/584125284595?text=${waText}`, '_blank');
+                    form.classList.add('hidden');
+                    successMsg.classList.remove('hidden');
+                }
+            }).catch(() => {
+                window.open(`https://wa.me/584125284595?text=${waText}`, '_blank');
+                form.classList.add('hidden');
+                successMsg.classList.remove('hidden');
+            });
+        }
+    </script>
+</body>
+</html>
