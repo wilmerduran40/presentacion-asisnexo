@@ -79,7 +79,7 @@
                 <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
                     <a href="#caracteristicas" class="hover:text-white transition">Características</a>
                     <a href="#dispositivo" class="hover:text-white transition">Terminal Biométrica</a>
-                    <a href="#precios" class="hover:text-white transition">Plan Único</a>
+                    <a href="#precios" class="hover:text-white transition">Planes</a>
                     <a href="#faq" class="hover:text-white transition">Preguntas Frecuentes</a>
                 </nav>
 
@@ -101,7 +101,7 @@
         <div id="mobile-menu" class="hidden md:hidden bg-slate-950 border-b border-slate-800 px-4 pt-2 pb-6 space-y-3">
             <a href="#caracteristicas" class="block py-2 text-slate-300 hover:text-white font-medium border-b border-slate-800/50">Características</a>
             <a href="#dispositivo" class="block py-2 text-slate-300 hover:text-white font-medium border-b border-slate-800/50">Terminal Biométrica</a>
-            <a href="#precios" class="block py-2 text-slate-300 hover:text-white font-medium border-b border-slate-800/50">Plan Único</a>
+            <a href="#precios" class="block py-2 text-slate-300 hover:text-white font-medium border-b border-slate-800/50">Planes</a>
             <a href="#faq" class="block py-2 text-slate-300 hover:text-white font-medium">Preguntas Frecuentes</a>
             <div class="pt-4 flex flex-col gap-2">
                 <a href="#contacto" class="w-full text-center bg-brand-600 hover:bg-brand-500 text-white font-semibold py-3 rounded-xl transition">
@@ -120,7 +120,7 @@
             <!-- Badge -->
             <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-800/80 border border-slate-700 text-tealBrand-400 text-xs sm:text-sm font-semibold mb-8 shadow-inner">
                 <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse"></span>
-                <span>Promoción Lanzamiento — Plan único $30/mes sin límite de usuarios</span>
+                <span>Promoción Lanzamiento — Desde $15/mes por 2 meses</span>
             </div>
 
             <h1 class="text-4xl sm:text-6xl font-black tracking-tight leading-tight max-w-4xl mx-auto">
@@ -318,102 +318,180 @@
 
     <!-- Pricing Plans Section -->
     <section id="precios" class="py-20 bg-slate-100">
-        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center max-w-xl mx-auto mb-12">
                 <span class="text-brand-600 text-sm font-bold tracking-wider uppercase bg-brand-50 px-3 py-1 rounded-full border border-brand-100">Promoción de Lanzamiento</span>
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-3">Un solo plan. Sin límites.</h2>
-                <p class="text-slate-600 mt-3">Por tiempo limitado: $30/mes con usuarios, sucursales y dispositivos ilimitados. Sin cobro por persona.</p>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mt-3">Prueba por $15. Quédate sin límites.</h2>
+                <p class="text-slate-600 mt-3">Disfruta todos los beneficios por $15/mes durante tus primeros 2 meses y continúa sin límites con el Plan Único de $30/mes.</p>
             </div>
 
-            <!-- Single Plan Card -->
-            <div class="bg-gradient-to-b from-brand-50 to-white rounded-3xl border-2 border-brand-500 shadow-2xl shadow-brand-500/20 relative overflow-hidden">
-                <div class="absolute top-0 left-1/2 -translate-x-1/2 bg-gradient-to-r from-brand-500 to-tealBrand-400 text-white text-xs font-black uppercase px-6 py-1.5 rounded-b-xl tracking-wider shadow-md">
-                    Promoción Lanzamiento
+            <div class="grid md:grid-cols-2 gap-8 items-stretch">
+
+                <!-- Plan Iniciado Card -->
+                <div class="bg-gradient-to-b from-teal-50 to-white rounded-3xl border-2 border-tealBrand-500 shadow-2xl shadow-tealBrand-500/20 relative overflow-hidden flex flex-col">
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 bg-gradient-to-r from-tealBrand-500 to-brand-500 text-white text-xs font-black uppercase px-6 py-1.5 rounded-b-xl tracking-wider shadow-md">
+                        Oferta primeros 2 meses
+                    </div>
+
+                    <div class="p-10 sm:p-12 text-center mt-4 flex-1 flex flex-col">
+                        <div class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Para probar sin riesgos</div>
+                        <h3 class="text-3xl font-black text-slate-900">Plan Iniciado</h3>
+
+                        <div class="my-8">
+                            <span class="text-6xl font-black text-slate-900">$15</span>
+                            <span class="text-xl text-slate-500 font-medium">/mes</span>
+                            <p class="text-sm text-tealBrand-600 font-bold mt-1">Solo los primeros 2 meses</p>
+                        </div>
+
+                        <!-- Unlimited Badges -->
+                        <div class="grid grid-cols-3 gap-3 mb-10">
+                            <div class="bg-teal-50 border border-teal-100 rounded-xl py-3 px-2">
+                                <div class="text-2xl text-tealBrand-600 mb-1"><i class="fa-solid fa-users"></i></div>
+                                <span class="text-xs font-bold text-slate-700">Usuarios</span>
+                                <span class="text-xs text-tealBrand-600 font-black block">ILIMITADOS</span>
+                            </div>
+                            <div class="bg-brand-50 border border-brand-100 rounded-xl py-3 px-2">
+                                <div class="text-2xl text-brand-600 mb-1"><i class="fa-solid fa-building"></i></div>
+                                <span class="text-xs font-bold text-slate-700">Sucursales</span>
+                                <span class="text-xs text-brand-600 font-black block">ILIMITADAS</span>
+                            </div>
+                            <div class="bg-indigo-50 border border-indigo-100 rounded-xl py-3 px-2">
+                                <div class="text-2xl text-brand-600 mb-1"><i class="fa-solid fa-microchip"></i></div>
+                                <span class="text-xs font-bold text-slate-700">Dispositivos</span>
+                                <span class="text-xs text-brand-600 font-black block">2</span>
+                            </div>
+                        </div>
+
+                        <!-- Feature Checklist -->
+                        <div class="border-t border-slate-200 pt-8 mb-8 flex-1">
+                            <ul class="grid sm:grid-cols-2 gap-3 text-left max-w-lg mx-auto">
+                                <li class="flex items-center gap-2.5 text-sm text-slate-700">
+                                    <i class="fa-solid fa-circle-check text-emerald-500 text-sm shrink-0"></i> Marcaje biométrico entrada/salida
+                                </li>
+                                <li class="flex items-center gap-2.5 text-sm text-slate-700">
+                                    <i class="fa-solid fa-circle-check text-emerald-500 text-sm shrink-0"></i> Dashboard en tiempo real
+                                </li>
+                                <li class="flex items-center gap-2.5 text-sm text-slate-700">
+                                    <i class="fa-solid fa-circle-check text-emerald-500 text-sm shrink-0"></i> Reportes Excel y PDF
+                                </li>
+                                <li class="flex items-center gap-2.5 text-sm text-slate-700">
+                                    <i class="fa-solid fa-circle-check text-emerald-500 text-sm shrink-0"></i> Cálculo automático de horas extra
+                                </li>
+                                <li class="flex items-center gap-2.5 text-sm text-slate-700">
+                                    <i class="fa-solid fa-circle-check text-emerald-500 text-sm shrink-0"></i> Detección de tardanzas
+                                </li>
+                                <li class="flex items-center gap-2.5 text-sm text-slate-700">
+                                    <i class="fa-solid fa-circle-check text-emerald-500 text-sm shrink-0"></i> Notificaciones Telegram
+                                </li>
+                                <li class="flex items-center gap-2.5 text-sm text-slate-700">
+                                    <i class="fa-solid fa-circle-check text-emerald-500 text-sm shrink-0"></i> API REST para nómina
+                                </li>
+                                <li class="flex items-center gap-2.5 text-sm text-slate-700">
+                                    <i class="fa-solid fa-circle-check text-emerald-500 text-sm shrink-0"></i> Respaldo offline automático
+                                </li>
+                            </ul>
+                        </div>
+
+                        <a href="#contacto" class="inline-block bg-gradient-to-r from-tealBrand-500 to-brand-600 hover:from-tealBrand-400 hover:to-brand-500 text-white font-extrabold text-sm px-10 py-4 rounded-2xl shadow-xl shadow-tealBrand-500/30 transition transform hover:-translate-y-0.5 active:translate-y-0">
+                            <i class="fa-solid fa-paper-plane mr-2"></i> Probar por 2 meses
+                        </a>
+
+                        <div class="mt-6 text-xs text-slate-500">
+                            Al finalizar la oferta, tu plan pasa automáticamente a $30/mes. Sin permanencia.
+                        </div>
+                    </div>
                 </div>
 
-                <div class="p-10 sm:p-14 text-center mt-4">
-                    <div class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Para empresas de cualquier tamaño</div>
-                    <h3 class="text-3xl font-black text-slate-900">Plan Único</h3>
-
-                    <div class="my-8">
-                        <span class="text-6xl font-black text-slate-900">$30</span>
-                        <span class="text-xl text-slate-500 font-medium">/mes</span>
-                        <p class="text-sm text-slate-400 mt-1">Precio fijo — Sin sorpresas</p>
+                <!-- Plan Único Card -->
+                <div class="bg-gradient-to-b from-brand-50 to-white rounded-3xl border-2 border-brand-500 shadow-2xl shadow-brand-500/20 relative overflow-hidden flex flex-col">
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 bg-gradient-to-r from-brand-500 to-tealBrand-400 text-white text-xs font-black uppercase px-6 py-1.5 rounded-b-xl tracking-wider shadow-md">
+                        Promoción Lanzamiento
                     </div>
 
-                    <!-- Unlimited Badges -->
-                    <div class="grid grid-cols-3 gap-3 mb-10">
-                        <div class="bg-brand-50 border border-brand-100 rounded-xl py-3 px-2">
-                            <div class="text-2xl text-brand-600 mb-1"><i class="fa-solid fa-users"></i></div>
-                            <span class="text-xs font-bold text-slate-700">Usuarios</span>
-                            <span class="text-xs text-brand-600 font-black block">ILIMITADOS</span>
-                        </div>
-                        <div class="bg-teal-50 border border-teal-100 rounded-xl py-3 px-2">
-                            <div class="text-2xl text-tealBrand-600 mb-1"><i class="fa-solid fa-building"></i></div>
-                            <span class="text-xs font-bold text-slate-700">Sucursales</span>
-                            <span class="text-xs text-tealBrand-600 font-black block">ILIMITADAS</span>
-                        </div>
-                        <div class="bg-indigo-50 border border-indigo-100 rounded-xl py-3 px-2">
-                            <div class="text-2xl text-brand-600 mb-1"><i class="fa-solid fa-microchip"></i></div>
-                            <span class="text-xs font-bold text-slate-700">Dispositivos</span>
-                            <span class="text-xs text-brand-600 font-black block">2</span>
-                        </div>
-                    </div>
+                    <div class="p-10 sm:p-12 text-center mt-4 flex-1 flex flex-col">
+                        <div class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Para empresas de cualquier tamaño</div>
+                        <h3 class="text-3xl font-black text-slate-900">Plan Único</h3>
 
-                    <!-- Feature Checklist -->
-                    <div class="border-t border-slate-200 pt-8 mb-8">
-                        <ul class="grid sm:grid-cols-2 gap-3 text-left max-w-lg mx-auto">
-                            <li class="flex items-center gap-2.5 text-sm text-slate-700">
-                                <i class="fa-solid fa-circle-check text-emerald-500 text-sm shrink-0"></i> Marcaje biométrico entrada/salida
-                            </li>
-                            <li class="flex items-center gap-2.5 text-sm text-slate-700">
-                                <i class="fa-solid fa-circle-check text-emerald-500 text-sm shrink-0"></i> Dashboard en tiempo real
-                            </li>
-                            <li class="flex items-center gap-2.5 text-sm text-slate-700">
-                                <i class="fa-solid fa-circle-check text-emerald-500 text-sm shrink-0"></i> Reportes Excel y PDF
-                            </li>
-                            <li class="flex items-center gap-2.5 text-sm text-slate-700">
-                                <i class="fa-solid fa-circle-check text-emerald-500 text-sm shrink-0"></i> Cálculo automático de horas extra
-                            </li>
-                            <li class="flex items-center gap-2.5 text-sm text-slate-700">
-                                <i class="fa-solid fa-circle-check text-emerald-500 text-sm shrink-0"></i> Detección de tardanzas
-                            </li>
-                            <li class="flex items-center gap-2.5 text-sm text-slate-700">
-                                <i class="fa-solid fa-circle-check text-emerald-500 text-sm shrink-0"></i> Notificaciones Telegram
-                            </li>
-                            <li class="flex items-center gap-2.5 text-sm text-slate-700">
-                                <i class="fa-solid fa-circle-check text-emerald-500 text-sm shrink-0"></i> API REST para nómina
-                            </li>
-                            <li class="flex items-center gap-2.5 text-sm text-slate-700">
-                                <i class="fa-solid fa-circle-check text-emerald-500 text-sm shrink-0"></i> Respaldo offline automático
-                            </li>
-                            <li class="flex items-center gap-2.5 text-sm text-slate-700">
-                                <i class="fa-solid fa-circle-check text-emerald-500 text-sm shrink-0"></i> Capacitación inicial incluida
-                            </li>
-                            <li class="flex items-center gap-2.5 text-sm text-slate-700">
-                                <i class="fa-solid fa-circle-check text-emerald-500 text-sm shrink-0"></i> Soporte WhatsApp
-                            </li>
-                        </ul>
-                    </div>
+                        <div class="my-8">
+                            <span class="text-6xl font-black text-slate-900">$30</span>
+                            <span class="text-xl text-slate-500 font-medium">/mes</span>
+                            <p class="text-sm text-slate-400 mt-1">Precio fijo — Sin sorpresas</p>
+                        </div>
 
-                    <a href="#contacto" class="inline-block bg-gradient-to-r from-brand-600 to-tealBrand-500 hover:from-brand-500 hover:to-tealBrand-400 text-white font-extrabold text-sm px-10 py-4 rounded-2xl shadow-xl shadow-brand-500/30 transition transform hover:-translate-y-0.5 active:translate-y-0">
-                        <i class="fa-solid fa-paper-plane mr-2"></i> Contratar Plan Único
-                    </a>
+                        <!-- Unlimited Badges -->
+                        <div class="grid grid-cols-3 gap-3 mb-10">
+                            <div class="bg-brand-50 border border-brand-100 rounded-xl py-3 px-2">
+                                <div class="text-2xl text-brand-600 mb-1"><i class="fa-solid fa-users"></i></div>
+                                <span class="text-xs font-bold text-slate-700">Usuarios</span>
+                                <span class="text-xs text-brand-600 font-black block">ILIMITADOS</span>
+                            </div>
+                            <div class="bg-teal-50 border border-teal-100 rounded-xl py-3 px-2">
+                                <div class="text-2xl text-tealBrand-600 mb-1"><i class="fa-solid fa-building"></i></div>
+                                <span class="text-xs font-bold text-slate-700">Sucursales</span>
+                                <span class="text-xs text-tealBrand-600 font-black block">ILIMITADAS</span>
+                            </div>
+                            <div class="bg-indigo-50 border border-indigo-100 rounded-xl py-3 px-2">
+                                <div class="text-2xl text-brand-600 mb-1"><i class="fa-solid fa-microchip"></i></div>
+                                <span class="text-xs font-bold text-slate-700">Dispositivos</span>
+                                <span class="text-xs text-brand-600 font-black block">2</span>
+                            </div>
+                        </div>
 
-                    <!-- Info Footer -->
-                    <div class="mt-6 flex flex-wrap items-center justify-center gap-4 text-xs text-slate-500">
-                        <span class="flex items-center gap-1.5">
-                            <span class="w-1.5 h-1.5 rounded-full bg-brand-500"></span>
-                            Dispositivo biométrico: $80 USD pago único
-                        </span>
-                        <span class="flex items-center gap-1.5">
-                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                            Pago trimestral: -10%
-                        </span>
-                        <span class="flex items-center gap-1.5">
-                            <span class="w-1.5 h-1.5 rounded-full bg-tealBrand-500"></span>
-                            Pago anual: -15%
-                        </span>
+                        <!-- Feature Checklist -->
+                        <div class="border-t border-slate-200 pt-8 mb-8 flex-1">
+                            <ul class="grid sm:grid-cols-2 gap-3 text-left max-w-lg mx-auto">
+                                <li class="flex items-center gap-2.5 text-sm text-slate-700">
+                                    <i class="fa-solid fa-circle-check text-emerald-500 text-sm shrink-0"></i> Marcaje biométrico entrada/salida
+                                </li>
+                                <li class="flex items-center gap-2.5 text-sm text-slate-700">
+                                    <i class="fa-solid fa-circle-check text-emerald-500 text-sm shrink-0"></i> Dashboard en tiempo real
+                                </li>
+                                <li class="flex items-center gap-2.5 text-sm text-slate-700">
+                                    <i class="fa-solid fa-circle-check text-emerald-500 text-sm shrink-0"></i> Reportes Excel y PDF
+                                </li>
+                                <li class="flex items-center gap-2.5 text-sm text-slate-700">
+                                    <i class="fa-solid fa-circle-check text-emerald-500 text-sm shrink-0"></i> Cálculo automático de horas extra
+                                </li>
+                                <li class="flex items-center gap-2.5 text-sm text-slate-700">
+                                    <i class="fa-solid fa-circle-check text-emerald-500 text-sm shrink-0"></i> Detección de tardanzas
+                                </li>
+                                <li class="flex items-center gap-2.5 text-sm text-slate-700">
+                                    <i class="fa-solid fa-circle-check text-emerald-500 text-sm shrink-0"></i> Notificaciones Telegram
+                                </li>
+                                <li class="flex items-center gap-2.5 text-sm text-slate-700">
+                                    <i class="fa-solid fa-circle-check text-emerald-500 text-sm shrink-0"></i> API REST para nómina
+                                </li>
+                                <li class="flex items-center gap-2.5 text-sm text-slate-700">
+                                    <i class="fa-solid fa-circle-check text-emerald-500 text-sm shrink-0"></i> Respaldo offline automático
+                                </li>
+                                <li class="flex items-center gap-2.5 text-sm text-slate-700">
+                                    <i class="fa-solid fa-circle-check text-emerald-500 text-sm shrink-0"></i> Capacitación inicial incluida
+                                </li>
+                                <li class="flex items-center gap-2.5 text-sm text-slate-700">
+                                    <i class="fa-solid fa-circle-check text-emerald-500 text-sm shrink-0"></i> Soporte WhatsApp
+                                </li>
+                            </ul>
+                        </div>
+
+                        <a href="#contacto" class="inline-block bg-gradient-to-r from-brand-600 to-tealBrand-500 hover:from-brand-500 hover:to-tealBrand-400 text-white font-extrabold text-sm px-10 py-4 rounded-2xl shadow-xl shadow-brand-500/30 transition transform hover:-translate-y-0.5 active:translate-y-0">
+                            <i class="fa-solid fa-paper-plane mr-2"></i> Contratar Plan Único
+                        </a>
+
+                        <!-- Info Footer -->
+                        <div class="mt-6 flex flex-wrap items-center justify-center gap-4 text-xs text-slate-500">
+                            <span class="flex items-center gap-1.5">
+                                <span class="w-1.5 h-1.5 rounded-full bg-brand-500"></span>
+                                Dispositivo biométrico: $80 USD pago único
+                            </span>
+                            <span class="flex items-center gap-1.5">
+                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                                Pago trimestral: -10%
+                            </span>
+                            <span class="flex items-center gap-1.5">
+                                <span class="w-1.5 h-1.5 rounded-full bg-tealBrand-500"></span>
+                                Pago anual: -15%
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -470,6 +548,17 @@
                     </button>
                     <div id="faq-ans-4" class="hidden p-5 bg-white text-slate-600 text-sm leading-relaxed border-t border-slate-100">
                         ¡Ilimitados! Por promoción de lanzamiento, el plan único de $30/mes incluye usuarios, sucursales y dispositivos ilimitados. Sin cobro por empleado. Precio fijo mensual.
+                    </div>
+                </div>
+
+                <!-- Question 5 -->
+                <div class="border border-slate-200 rounded-2xl overflow-hidden">
+                    <button onclick="toggleFaq(5)" class="w-full text-left p-5 bg-slate-50 font-bold text-slate-900 flex justify-between items-center focus:outline-none">
+                        <span>¿Cómo funciona el plan de $15 de prueba?</span>
+                        <i id="faq-icon-5" class="fa-solid fa-chevron-down text-slate-400 transition-transform"></i>
+                    </button>
+                    <div id="faq-ans-5" class="hidden p-5 bg-white text-slate-600 text-sm leading-relaxed border-t border-slate-100">
+                        El Plan Iniciado cuesta $15/mes durante tus primeros 2 meses, con acceso completo a todas las funcionalidades y sin límites de usuarios ni sucursales. Al finalizar la oferta, tu plan pasa automáticamente al Plan Único de $30/mes. Solo necesitas el dispositivo biométrico ($80 USD pago único) para comenzar.
                     </div>
                 </div>
             </div>
@@ -532,6 +621,16 @@
                                     <option value="100+">Más de 100 empleados</option>
                                 </select>
                             </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">Plan de interés *</label>
+                            <select required class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-500">
+                                <option value="" selected disabled>Selecciona un plan</option>
+                                <option value="iniciado">Plan Iniciado — $15/mes (prueba 2 meses)</option>
+                                <option value="unico">Plan Único — $30/mes sin límites</option>
+                                <option value="indeciso">Aún no estoy seguro, quiero asesoría</option>
+                            </select>
                         </div>
 
                         <div>
