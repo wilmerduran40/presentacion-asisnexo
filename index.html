@@ -532,22 +532,22 @@
                         <div class="grid sm:grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-xs font-semibold text-slate-300 mb-1">Nombre de la Empresa *</label>
-                                <input type="text" required placeholder="Ej. Corporación ABC, C.A." class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-500">
+                                <input id="empresa" type="text" required placeholder="Ej. Corporación ABC, C.A." class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-500">
                             </div>
                             <div>
                                 <label class="block text-xs font-semibold text-slate-300 mb-1">Persona de Contacto *</label>
-                                <input type="text" required placeholder="Nombre y Apellido" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-500">
+                                <input id="contacto" type="text" required placeholder="Nombre y Apellido" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-500">
                             </div>
                         </div>
 
                         <div class="grid sm:grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-xs font-semibold text-slate-300 mb-1">WhatsApp / Teléfono *</label>
-                                <input type="tel" required placeholder="+58 414 1234567" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-500">
+                                <input id="telefono" type="tel" required placeholder="+58 414 1234567" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-500">
                             </div>
                             <div>
                                 <label class="block text-xs font-semibold text-slate-300 mb-1">Cantidad de Empleados</label>
-                                <select class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-500">
+                                <select id="empleados" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-500">
                                     <option value="5-10">5 a 10 empleados</option>
                                     <option value="11-25" selected>11 a 25 empleados</option>
                                     <option value="26-50">26 a 50 empleados</option>
@@ -559,7 +559,7 @@
 
                         <div>
                             <label class="block text-xs font-semibold text-slate-300 mb-1">Plan de interés *</label>
-                            <select required class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-500">
+                            <select id="plan" required class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-500">
                                 <option value="" selected disabled>Selecciona un plan</option>
                                 <option value="todo-incluido">Plan Todo Incluido — $35/mes (dispositivo incluido)</option>
                                 <option value="anual">Plan Todo Incluido Anual — $350/año (2 meses gratis)</option>
@@ -570,7 +570,7 @@
 
                         <div>
                             <label class="block text-xs font-semibold text-slate-300 mb-1">Mensaje / Requerimiento Especial</label>
-                            <textarea rows="3" placeholder="¿Tienes requerimientos específicos de horarios, turnos o integración?" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-500"></textarea>
+                            <textarea id="mensaje" rows="3" placeholder="¿Tienes requerimientos específicos de horarios, turnos o integración?" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-brand-500"></textarea>
                         </div>
 
                         <button type="submit" class="w-full bg-gradient-to-r from-brand-600 to-tealBrand-500 hover:from-brand-500 hover:to-tealBrand-400 text-white font-bold py-4 rounded-xl transition shadow-xl active:scale-98">
@@ -649,12 +649,35 @@
             }
         }
 
-        // Contact Form Handle Submit
+        // Contact Form Handle Submit — sends the request to WhatsApp
+        const WHATSAPP_NUMBER = '584125284595';
+
         function handleFormSubmit(e) {
             e.preventDefault();
             const form = document.getElementById('contactForm');
             const successMsg = document.getElementById('form-success');
 
+            const valor = (id) => document.getElementById(id).value.trim();
+            const textoOpcion = (id) => document.getElementById(id).selectedOptions[0].text;
+
+            const lineas = [
+                'Nueva solicitud de cotización — AsisNexo',
+                'Empresa: ' + valor('empresa'),
+                'Contacto: ' + valor('contacto'),
+                'WhatsApp / Teléfono: ' + valor('telefono'),
+                'Empleados: ' + textoOpcion('empleados'),
+                'Plan de interés: ' + textoOpcion('plan')
+            ];
+
+            const mensaje = valor('mensaje');
+            if (mensaje) {
+                lineas.push('Mensaje: ' + mensaje);
+            }
+
+            const url = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(lineas.join('\n'));
+            window.open(url, '_blank', 'noopener,noreferrer');
+
+            form.reset();
             form.classList.add('hidden');
             successMsg.classList.remove('hidden');
         }
