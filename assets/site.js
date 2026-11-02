@@ -2,36 +2,74 @@ document.querySelectorAll('[data-anio]').forEach((el) => {
     el.textContent = new Date().getFullYear();
 });
 
-// Portada: cada placa muestra un resultado de ejemplo al tocarla
+// Portada: cada producto muestra un resultado de ejemplo al tocarlo
 const EJEMPLOS = {
     control: [
-        () => `<b>Entrada registrada</b><br>Ana R., ${horaActual()} (ejemplo)`,
-        () => `<b>Entrada registrada</b><br>Luis M., ${horaActual()} (ejemplo)`,
-        () => `<b>Salida registrada</b><br>Ana R., ${horaActual()} (ejemplo)`
+        () => ['Ana R.', `Entrada ${horaActual()}`],
+        () => ['Luis M.', `Entrada ${horaActual()}`],
+        () => ['Ana R.', `Salida ${horaActual()}`]
     ],
     tap: [
-        () => '<b>★★★★★</b><br>Se abre Google y tu cliente deja su reseña (ejemplo)',
-        () => '<b>★★★★★</b><br>Otra reseña más, sin apps ni enlaces (ejemplo)'
+        () => 'Se abre Google y tu cliente deja su reseña (ejemplo)',
+        () => 'Otra reseña más, sin apps ni enlaces (ejemplo)'
     ]
 };
 
 function horaActual() {
-    return new Date().toLocaleTimeString('es-VE', { hour: 'numeric', minute: '2-digit' });
+    return new Date().toLocaleTimeString('es-VE', { hour: '2-digit', minute: '2-digit', hour12: false });
+}
+
+function mostrarLcd(lcd, lineas) {
+    lcd.replaceChildren(...lineas.map((linea) => {
+        const span = document.createElement('span');
+        span.textContent = linea;
+        return span;
+    }));
 }
 
 document.querySelectorAll('[data-sensor]').forEach((sensor) => {
     const tipo = sensor.dataset.sensor;
     const registro = document.querySelector(`[data-registro="${tipo}"]`);
+    const estrellas = document.querySelector('[data-estrellas]');
     let turno = 0;
+    let espera;
 
     sensor.addEventListener('click', () => {
         sensor.classList.remove('toque');
+        if (tipo === 'tap') estrellas.classList.remove('llenas');
         void sensor.offsetWidth; // reinicia la animación si se toca seguido
         sensor.classList.add('toque');
-        registro.innerHTML = EJEMPLOS[tipo][turno % EJEMPLOS[tipo].length]();
+
+        const ejemplo = EJEMPLOS[tipo][turno % EJEMPLOS[tipo].length]();
         turno += 1;
+
+        if (tipo === 'control') {
+            mostrarLcd(registro, ejemplo);
+            clearTimeout(espera);
+            espera = setTimeout(() => mostrarLcd(registro, ['Coloca tu', 'huella']), 3500);
+        } else {
+            estrellas.classList.add('llenas');
+            registro.textContent = ejemplo;
+        }
     });
 });
+
+// Portada: las secciones aparecen al llegar a ellas
+if (document.querySelector('.mitades') && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const aparecer = new IntersectionObserver((entradas) => {
+        entradas.forEach((entrada) => {
+            if (entrada.isIntersecting) {
+                entrada.target.classList.add('visible');
+                aparecer.unobserve(entrada.target);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('main > .bloque > .envoltura').forEach((bloque) => {
+        bloque.classList.add('revelar');
+        aparecer.observe(bloque);
+    });
+}
 
 // Videos en el celular: suenan solo si se pide y se pausan fuera de pantalla
 const sinMovimiento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;

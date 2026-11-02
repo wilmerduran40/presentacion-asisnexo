@@ -14,8 +14,8 @@
     <link rel="icon" type="image/png" href="assets/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@500;700;800;900&family=Red+Hat+Text:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/site.css?v=20261102">
+    <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@500;700;800;900&family=Red+Hat+Text:wght@400;500;700&family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/site.css?v=20261102c">
     <script>
         // Los enlaces antiguos apuntaban a secciones que ahora viven en /control/
         if (['#caracteristicas', '#dispositivo', '#precios', '#faq', '#contacto'].includes(location.hash)) {
@@ -25,12 +25,12 @@
 </head>
 <body>
 
-    <header class="cabecera">
+    <header class="cabecera cabecera-portada">
         <div class="envoltura">
             <a class="logo" href="./"><img src="assets/logo.png" alt="AsisNexo" width="480" height="124"></a>
             <nav aria-label="Principal">
-                <a href="control/">Control de asistencia</a>
-                <a href="https://nfc.asisnexo.com/">Reseñas con NFC</a>
+                <a href="control/"><span class="nav-largo">Control de asistencia</span><span class="nav-corto">Control</span></a>
+                <a href="https://nfc.asisnexo.com/"><span class="nav-largo">Reseñas con NFC</span><span class="nav-corto">TapNexo</span></a>
             </nav>
             <a class="boton boton-chico" href="#hablemos">Escríbenos</a>
         </div>
@@ -38,16 +38,20 @@
 
     <main>
         <section class="portada oscuro">
-            <div class="envoltura">
+            <div class="envoltura portada-texto">
                 <h1>Un toque y queda registrado.</h1>
-                <p class="portada-intro">Un dedo en el lector y sabes quién llegó a trabajar. Un teléfono en la placa y tu cliente deja su reseña en Google. Pruébalo aquí.</p>
+                <p>Un dedo en el lector y sabes quién llegó. Un teléfono en la placa y tu cliente deja su reseña. Pruébalo aquí.</p>
+            </div>
 
-                <div class="placas">
-                    <article class="placa placa-control">
-                        <div class="placa-cabeza">
+            <div class="mitades">
+                <article class="mitad mitad-control">
+                    <img class="mitad-foto" src="assets/foto-lector.jpg" width="576" height="680" alt="Terminal biométrica AsisNexo fija en la pared, con un dedo sobre el lector de huella">
+                    <div class="mitad-cuerpo">
+                        <div class="mitad-cabeza">
                             <h2>Control</h2>
                             <span>Asistencia del personal</span>
                         </div>
+                        <div class="lcd" data-registro="control" aria-live="polite"><span>Coloca tu</span><span>huella</span></div>
                         <button class="sensor" type="button" data-sensor="control" aria-label="Probar un marcaje de ejemplo">
                             <svg viewBox="0 0 120 120" aria-hidden="true">
                                 <path d="M16 84V56a44 44 0 0 1 88 0v28"/>
@@ -55,14 +59,21 @@
                                 <path d="M52 110V56a8 8 0 0 1 16 0v48"/>
                             </svg>
                         </button>
-                        <p class="registro" data-registro="control" aria-live="polite">Toca el lector para marcar una entrada de ejemplo</p>
-                        <p class="placa-pie"><a class="enlace" href="control/">Ver Control, $30/mes con dispositivo incluido</a></p>
-                    </article>
+                        <p class="pista">Toca el lector: marcaje de ejemplo</p>
+                        <p class="mitad-pie"><a class="enlace" href="control/">Ver Control, $30/mes con dispositivo incluido</a></p>
+                    </div>
+                </article>
 
-                    <article class="placa placa-tap">
-                        <div class="placa-cabeza">
+                <article class="mitad mitad-tap">
+                    <img class="mitad-foto" src="assets/foto-placas.jpg" width="600" height="708" alt="Dos placas NFC TapNexo para reseñas en Google, sostenidas en la mano">
+                    <div class="mitad-cuerpo">
+                        <div class="mitad-cabeza">
                             <h2>TapNexo</h2>
                             <span>Reseñas en Google</span>
+                        </div>
+                        <div class="resena">
+                            <div class="estrellas" data-estrellas aria-hidden="true"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                            <p data-registro="tap" aria-live="polite">Tu reseña en Google</p>
                         </div>
                         <button class="sensor" type="button" data-sensor="tap" aria-label="Probar una reseña de ejemplo">
                             <svg viewBox="0 0 120 120" aria-hidden="true">
@@ -71,10 +82,10 @@
                                 <path d="M36 52a8 8 0 0 1 0 16"/>
                             </svg>
                         </button>
-                        <p class="registro" data-registro="tap" aria-live="polite">Toca la placa para dejar una reseña de ejemplo</p>
-                        <p class="placa-pie"><a class="enlace" href="https://nfc.asisnexo.com/">Ver TapNexo, desde $8 sin mensualidades</a></p>
-                    </article>
-                </div>
+                        <p class="pista">Toca la placa: reseña de ejemplo</p>
+                        <p class="mitad-pie"><a class="enlace" href="https://nfc.asisnexo.com/">Ver TapNexo, desde $8 sin mensualidades</a></p>
+                    </div>
+                </article>
             </div>
         </section>
 
@@ -107,10 +118,10 @@
                                 <td>Tus empleados, con su huella</td>
                                 <td>Tus clientes, con su teléfono</td>
                             </tr>
-                            <tr>
+                            <tr class="fila-precio">
                                 <th scope="row">Cómo se paga</th>
-                                <td>$30/mes, primer mes por $15</td>
-                                <td>Pago único, desde $8</td>
+                                <td><strong>$30/mes</strong> primer mes por $15</td>
+                                <td><strong>Desde $8</strong> pago único</td>
                             </tr>
                             <tr>
                                 <th scope="row">Qué recibes</th>
@@ -130,16 +141,16 @@
             </div>
         </section>
 
-        <section class="bloque video-bloque">
+        <section class="bloque oscuro video-bloque">
             <div class="envoltura foto-texto con-telefono">
                 <div>
                     <h2>Tu empleado marca y el lector le responde</h2>
                     <p class="entrada">Este es nuestro lector en funcionamiento: registra la huella una vez y desde ahí cada marcaje muestra el nombre y la hora.</p>
-                    <ul class="lista">
+                    <ol class="pasos">
                         <li>Enrolas la huella de cada empleado en el lector</li>
                         <li>La pantalla confirma quién marcó y a qué hora</li>
                         <li>El marcaje aparece en tu panel web</li>
-                    </ul>
+                    </ol>
                     <div class="acciones">
                         <a class="boton" href="control/">Ver planes de Control</a>
                     </div>
@@ -168,12 +179,15 @@
                     <ul class="lista">
                         <li>Te la entregamos configurada con tu enlace</li>
                         <li>Si cambia tu enlace, lo actualizamos sin reimprimir</li>
-                        <li>Se puede medir cuántas personas la escanean y en qué días</li>
                         <li>Envío a todo el país, cobro en destino</li>
                     </ul>
                     <div class="acciones">
                         <a class="boton boton-oro" href="https://nfc.asisnexo.com/">Ver placas y precios</a>
                     </div>
+                    <figure class="foto-mesa">
+                        <img src="assets/foto-placa-mesa.jpg" width="394" height="604" loading="lazy" alt="Placa de reseñas de Google sobre el mostrador de madera de un negocio">
+                        <figcaption>La placa también se apoya en la mesa o el mostrador, a la vista de tus clientes.</figcaption>
+                    </figure>
                 </div>
                 <figure class="telefono telefono-tapnexo pausado" data-telefono>
                     <div class="telefono-cuerpo">
@@ -191,16 +205,16 @@
             </div>
         </section>
 
-        <section class="bloque oscuro" id="hablemos">
+        <section class="bloque oscuro cierre" id="hablemos">
             <div class="envoltura hablemos">
                 <div>
                     <h2>¿Dudas sobre cuál te conviene?</h2>
                     <p class="entrada">Cuéntanos de tu negocio por WhatsApp y te decimos qué necesitas.</p>
-                    <div class="datos">
-                        <a href="mailto:asisnexo@gmail.com">asisnexo@gmail.com</a>
-                    </div>
                 </div>
-                <a class="boton" href="https://wa.me/584125284595?text=Hola%2C%20quiero%20saber%20qu%C3%A9%20producto%20de%20AsisNexo%20me%20conviene">Escribir por WhatsApp</a>
+                <div class="cierre-accion">
+                    <a class="boton boton-grande" href="https://wa.me/584125284595?text=Hola%2C%20quiero%20saber%20qu%C3%A9%20producto%20de%20AsisNexo%20me%20conviene"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.8 14.2c-.2.7-1.4 1.300-2 1.400-.5.1-1.200.1-1.900-.1-.4-.1-1-.3-1.700-.6-3-1.300-5-4.300-5.100-4.500-.2-.2-1.200-1.600-1.200-3s.7-2.100 1-2.400c.3-.3.600-.4.800-.4h.6c.2 0 .4 0 .6.500l.8 2c.1.200.1.400 0 .6l-.3.500-.4.500c-.1.100-.3.300-.1.600.2.300.8 1.300 1.700 2.100 1.200 1 2.100 1.400 2.400 1.500.3.200.5.100.7-.1l.9-1.100c.2-.3.4-.2.700-.1l1.900.9c.3.100.5.200.5.300.1.100.1.700-.100 1.400z"/></svg>Escribir por WhatsApp</a>
+                    <a class="cierre-correo" href="mailto:asisnexo@gmail.com">asisnexo@gmail.com</a>
+                </div>
             </div>
         </section>
     </main>
@@ -217,6 +231,6 @@
         </div>
     </footer>
 
-    <script src="assets/site.js?v=20261102"></script>
+    <script src="assets/site.js?v=20261102c"></script>
 </body>
 </html>
