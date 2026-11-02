@@ -2,60 +2,79 @@ document.querySelectorAll('[data-anio]').forEach((el) => {
     el.textContent = new Date().getFullYear();
 });
 
-// Portada: cada producto muestra un resultado de ejemplo al tocarlo
-const EJEMPLOS = {
-    control: [
-        () => ['Ana R.', `Entrada ${horaActual()}`],
-        () => ['Luis M.', `Entrada ${horaActual()}`],
-        () => ['Ana R.', `Salida ${horaActual()}`]
-    ],
-    tap: [
-        () => 'Se abre Google y tu cliente deja su reseña (ejemplo)',
-        () => 'Otra reseña más, sin apps ni enlaces (ejemplo)'
-    ]
-};
+// Portada: el hero rota entre productos; se detiene mientras se usa o si se pausa
+const carrusel = document.querySelector('[data-carrusel]');
 
-function horaActual() {
-    return new Date().toLocaleTimeString('es-VE', { hour: '2-digit', minute: '2-digit', hour12: false });
-}
+if (carrusel) {
+    const ESPERA_ROTACION = 7000;
+    const diapositivas = [...carrusel.querySelectorAll('[data-diapositiva]')];
+    const puntos = [...carrusel.querySelectorAll('[data-ir]')];
+    const botonPausa = carrusel.querySelector('[data-pausa]');
+    const ICONO_PAUSA = 'M7 4h4v16H7zM13 4h4v16h-4z';
+    const ICONO_SEGUIR = 'M6 3v18l15-9z';
+    let actual = 0;
+    let pausado = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let enUso = false;
+    let temporizador;
 
-function mostrarLcd(lcd, lineas) {
-    lcd.replaceChildren(...lineas.map((linea) => {
-        const span = document.createElement('span');
-        span.textContent = linea;
-        return span;
-    }));
-}
+    function mostrar(indice) {
+        actual = (indice + diapositivas.length) % diapositivas.length;
+        diapositivas.forEach((diapositiva, i) => {
+            diapositiva.classList.toggle('activa', i === actual);
+            diapositiva.inert = i !== actual;
+        });
+        puntos.forEach((punto, i) => punto.setAttribute('aria-current', String(i === actual)));
+    }
 
-document.querySelectorAll('[data-sensor]').forEach((sensor) => {
-    const tipo = sensor.dataset.sensor;
-    const registro = document.querySelector(`[data-registro="${tipo}"]`);
-    const estrellas = document.querySelector('[data-estrellas]');
-    let turno = 0;
-    let espera;
+    function programar() {
+        clearTimeout(temporizador);
+        if (pausado || enUso) return;
+        temporizador = setTimeout(() => {
+            if (!document.hidden) mostrar(actual + 1);
+            programar();
+        }, ESPERA_ROTACION);
+    }
 
-    sensor.addEventListener('click', () => {
-        sensor.classList.remove('toque');
-        if (tipo === 'tap') estrellas.classList.remove('llenas');
-        void sensor.offsetWidth; // reinicia la animación si se toca seguido
-        sensor.classList.add('toque');
+    function pintarPausa() {
+        botonPausa.setAttribute('aria-label', pausado ? 'Reanudar la rotación' : 'Pausar la rotación');
+        botonPausa.querySelector('path').setAttribute('d', pausado ? ICONO_SEGUIR : ICONO_PAUSA);
+    }
 
-        const ejemplo = EJEMPLOS[tipo][turno % EJEMPLOS[tipo].length]();
-        turno += 1;
-
-        if (tipo === 'control') {
-            mostrarLcd(registro, ejemplo);
-            clearTimeout(espera);
-            espera = setTimeout(() => mostrarLcd(registro, ['Coloca tu', 'huella']), 3500);
-        } else {
-            estrellas.classList.add('llenas');
-            registro.textContent = ejemplo;
-        }
+    carrusel.querySelectorAll('[data-mover]').forEach((flecha) => {
+        flecha.addEventListener('click', () => {
+            mostrar(actual + Number(flecha.dataset.mover));
+            programar();
+        });
     });
-});
+
+    puntos.forEach((punto) => {
+        punto.addEventListener('click', () => {
+            mostrar(Number(punto.dataset.ir));
+            programar();
+        });
+    });
+
+    botonPausa.addEventListener('click', () => {
+        pausado = !pausado;
+        pintarPausa();
+        programar();
+    });
+
+    const cambiarUso = (valor) => {
+        enUso = valor;
+        programar();
+    };
+    carrusel.addEventListener('mouseenter', () => cambiarUso(true));
+    carrusel.addEventListener('mouseleave', () => cambiarUso(false));
+    carrusel.addEventListener('focusin', () => cambiarUso(true));
+    carrusel.addEventListener('focusout', () => cambiarUso(false));
+
+    pintarPausa();
+    programar();
+}
 
 // Portada: las secciones aparecen al llegar a ellas
-if (document.querySelector('.mitades') && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+if (document.querySelector('[data-carrusel]') && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
     const aparecer = new IntersectionObserver((entradas) => {
         entradas.forEach((entrada) => {
             if (entrada.isIntersecting) {

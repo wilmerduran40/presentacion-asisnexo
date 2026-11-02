@@ -14,8 +14,8 @@
     <link rel="icon" type="image/png" href="assets/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@500;700;800;900&family=Red+Hat+Text:wght@400;500;700&family=VT323&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/site.css?v=20261102c">
+    <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@500;700;800;900&family=Red+Hat+Text:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/site.css?v=20261102f">
     <script>
         // Los enlaces antiguos apuntaban a secciones que ahora viven en /control/
         if (['#caracteristicas', '#dispositivo', '#precios', '#faq', '#contacto'].includes(location.hash)) {
@@ -38,54 +38,48 @@
 
     <main>
         <section class="portada oscuro">
-            <div class="envoltura portada-texto">
-                <h1>Un toque y queda registrado.</h1>
-                <p>Un dedo en el lector y sabes quién llegó. Un teléfono en la placa y tu cliente deja su reseña. Pruébalo aquí.</p>
-            </div>
-
-            <div class="mitades">
-                <article class="mitad mitad-control">
-                    <img class="mitad-foto" src="assets/foto-lector.jpg" width="576" height="680" alt="Terminal biométrica AsisNexo fija en la pared, con un dedo sobre el lector de huella">
-                    <div class="mitad-cuerpo">
-                        <div class="mitad-cabeza">
-                            <h2>Control</h2>
-                            <span>Asistencia del personal</span>
+            <div class="carrusel" data-carrusel role="group" aria-roledescription="carrusel" aria-label="Productos de AsisNexo">
+                <article class="producto producto-control activa" data-diapositiva role="group" aria-roledescription="diapositiva" aria-label="1 de 2: Control">
+                    <div class="envoltura producto-rejilla">
+                        <div class="producto-cuerpo">
+                            <p class="producto-etiqueta">Control · Asistencia del personal</p>
+                            <h1>Un toque y queda registrado.</h1>
+                            <p class="producto-descripcion">Tus empleados marcan con la huella y tú ves quién llegó, a qué hora y cuántas horas trabajó.</p>
+                            <div class="producto-accion">
+                                <a class="boton" href="control/">Ver Control</a>
+                                <span>$30/mes con dispositivo incluido</span>
+                            </div>
                         </div>
-                        <div class="lcd" data-registro="control" aria-live="polite"><span>Coloca tu</span><span>huella</span></div>
-                        <button class="sensor" type="button" data-sensor="control" aria-label="Probar un marcaje de ejemplo">
-                            <svg viewBox="0 0 120 120" aria-hidden="true">
-                                <path d="M16 84V56a44 44 0 0 1 88 0v28"/>
-                                <path d="M34 100V56a26 26 0 0 1 52 0v36"/>
-                                <path d="M52 110V56a8 8 0 0 1 16 0v48"/>
-                            </svg>
-                        </button>
-                        <p class="pista">Toca el lector: marcaje de ejemplo</p>
-                        <p class="mitad-pie"><a class="enlace" href="control/">Ver Control, $30/mes con dispositivo incluido</a></p>
+                        <div class="producto-marco">
+                            <img src="assets/foto-lector.jpg" width="576" height="680" alt="Terminal biométrica AsisNexo fija en la pared, con un dedo sobre el lector de huella">
+                        </div>
                     </div>
                 </article>
 
-                <article class="mitad mitad-tap">
-                    <img class="mitad-foto" src="assets/foto-placas.jpg" width="600" height="708" alt="Dos placas NFC TapNexo para reseñas en Google, sostenidas en la mano">
-                    <div class="mitad-cuerpo">
-                        <div class="mitad-cabeza">
-                            <h2>TapNexo</h2>
-                            <span>Reseñas en Google</span>
+                <article class="producto producto-tap" data-diapositiva role="group" aria-roledescription="diapositiva" aria-label="2 de 2: TapNexo" inert>
+                    <div class="envoltura producto-rejilla">
+                        <div class="producto-cuerpo">
+                            <p class="producto-etiqueta">TapNexo · Reseñas en Google</p>
+                            <h2>Un toque y te dejan su reseña.</h2>
+                            <p class="producto-descripcion">Tu cliente acerca el teléfono a la placa y califica tu negocio en Google, sin apps y sin buscarte.</p>
+                            <div class="producto-accion">
+                                <a class="boton boton-oro" href="https://nfc.asisnexo.com/">Ver TapNexo</a>
+                                <span>Desde $8, sin mensualidades</span>
+                            </div>
                         </div>
-                        <div class="resena">
-                            <div class="estrellas" data-estrellas aria-hidden="true"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
-                            <p data-registro="tap" aria-live="polite">Tu reseña en Google</p>
+                        <div class="producto-marco">
+                            <img src="assets/foto-placas.jpg" width="600" height="708" alt="Dos placas NFC TapNexo para reseñas en Google, sostenidas en la mano">
                         </div>
-                        <button class="sensor" type="button" data-sensor="tap" aria-label="Probar una reseña de ejemplo">
-                            <svg viewBox="0 0 120 120" aria-hidden="true">
-                                <path d="M36 16a44 44 0 0 1 0 88"/>
-                                <path d="M36 34a26 26 0 0 1 0 52"/>
-                                <path d="M36 52a8 8 0 0 1 0 16"/>
-                            </svg>
-                        </button>
-                        <p class="pista">Toca la placa: reseña de ejemplo</p>
-                        <p class="mitad-pie"><a class="enlace" href="https://nfc.asisnexo.com/">Ver TapNexo, desde $8 sin mensualidades</a></p>
                     </div>
                 </article>
+
+                <div class="carrusel-control">
+                    <button class="carrusel-flecha" type="button" data-mover="-1" aria-label="Producto anterior"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+                    <button class="carrusel-flecha" type="button" data-mover="1" aria-label="Producto siguiente"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+                    <button class="carrusel-punto" type="button" data-ir="0" aria-label="Ver Control" aria-current="true"></button>
+                    <button class="carrusel-punto" type="button" data-ir="1" aria-label="Ver TapNexo"></button>
+                    <button class="carrusel-pausa" type="button" data-pausa aria-label="Pausar la rotación"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4h4v16H7zM13 4h4v16h-4z"/></svg></button>
+                </div>
             </div>
         </section>
 
@@ -231,6 +225,6 @@
         </div>
     </footer>
 
-    <script src="assets/site.js?v=20261102c"></script>
+    <script src="assets/site.js?v=20261102f"></script>
 </body>
 </html>
