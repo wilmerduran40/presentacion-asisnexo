@@ -123,6 +123,38 @@ a { color: inherit; }
 .precio-tap { font: 900 1.6rem/1.2 var(--display); margin-top: 24px; color: var(--oro-texto); }
 @media (max-width: 760px) { .foto-texto { grid-template-columns: 1fr; } }
 
+/* Celular con video */
+.video-bloque { overflow: hidden; }
+.foto-texto.con-telefono { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); }
+.telefono { position: relative; z-index: 0; margin: 0; width: min(290px, 78vw, 46svh); min-width: 240px; justify-self: center; --tono: var(--turquesa); }
+.telefono-tapnexo { --tono: var(--oro); }
+.telefono::before, .telefono::after {
+    content: ''; position: absolute; z-index: -1; left: 50%; top: 50%;
+    aspect-ratio: 1; border-radius: 50%; border: 2px solid var(--tono);
+    transform: translate(-50%, -50%);
+}
+.telefono::before { width: 136%; }
+.telefono::after { width: 178%; opacity: 0.45; }
+.telefono-cuerpo { position: relative; background: #0a1114; border-radius: 42px; padding: 10px; }
+.telefono-cuerpo::after { content: ''; position: absolute; right: -3px; top: 22%; width: 3px; height: 62px; border-radius: 0 3px 3px 0; background: #0a1114; }
+.telefono-barra { height: 40px; display: grid; place-items: center; }
+.telefono-barra::before { content: ''; width: 84px; height: 22px; border-radius: 12px; background: #000; }
+.telefono-pantalla { position: relative; aspect-ratio: 9 / 16; overflow: hidden; background: var(--petroleo); }
+.telefono-pantalla video { display: block; width: 100%; height: 100%; object-fit: cover; }
+.video-play { position: absolute; inset: 0; display: grid; place-items: center; width: 100%; border: 0; background: transparent; color: var(--blanco); cursor: pointer; }
+.video-play:focus-visible { outline-offset: -5px; }
+.video-play svg { width: 68px; height: 68px; padding: 20px 18px 20px 22px; border-radius: 50%; background: rgba(25, 40, 47, 0.78); fill: currentColor; opacity: 0; transition: opacity 0.15s; }
+.pausado .video-play svg, .video-play:focus-visible svg { opacity: 1; }
+.telefono-pie { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 52px; padding: 4px 10px 6px; color: #dfe8e8; font-size: 0.86rem; font-weight: 500; }
+.telefono-pie a { text-underline-offset: 3px; }
+.video-sonido { border: 1.5px solid var(--tono); border-radius: 999px; padding: 6px 12px; background: transparent; color: inherit; font: inherit; cursor: pointer; }
+.video-sonido[aria-pressed='true'] { background: var(--tono); border-color: var(--tono); color: var(--petroleo); font-weight: 700; }
+@media (min-width: 761px) { .con-telefono.telefono-izquierda .telefono { order: -1; } .foto-texto.con-telefono.telefono-izquierda { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); } }
+@media (max-width: 760px) {
+    .foto-texto.con-telefono { grid-template-columns: 1fr; gap: 56px; }
+    .telefono { margin-bottom: 20px; }
+}
+
 /* Contacto de la portada */
 .hablemos { display: flex; justify-content: space-between; gap: 32px; flex-wrap: wrap; align-items: end; }
 
@@ -152,8 +184,7 @@ a { color: inherit; }
 .dia p { color: var(--gris); margin-top: 6px; max-width: 62ch; }
 @media (max-width: 640px) { .dia li { grid-template-columns: 1fr; } }
 
-.demo { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 340px); gap: clamp(32px, 6vw, 72px); align-items: start; }
-.demo blockquote.tiktok-embed { margin: 0; }
+.demo { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(32px, 6vw, 72px); align-items: center; }
 @media (max-width: 800px) { .demo { grid-template-columns: 1fr; } }
 
 .tres { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 44px; }
@@ -217,7 +248,7 @@ a { color: inherit; }
 
 @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
-    .sensor, .boton { transition: none; }
+    .sensor, .boton, .video-play svg { transition: none; }
     .sensor:active { transform: none; }
     .sensor.toque::after { animation: none; }
 }

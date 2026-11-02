@@ -33,6 +33,47 @@ document.querySelectorAll('[data-sensor]').forEach((sensor) => {
     });
 });
 
+// Videos en el celular: suenan solo si se pide y se pausan fuera de pantalla
+const sinMovimiento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+document.querySelectorAll('[data-telefono]').forEach((telefono) => {
+    const video = telefono.querySelector('video');
+    const sonido = telefono.querySelector('.video-sonido');
+    let pausadoAMano = sinMovimiento;
+
+    video.addEventListener('play', () => telefono.classList.remove('pausado'));
+    video.addEventListener('pause', () => telefono.classList.add('pausado'));
+
+    telefono.querySelector('.video-play').addEventListener('click', () => {
+        pausadoAMano = !video.paused;
+        if (video.paused) {
+            video.play().catch(() => {});
+        } else {
+            video.pause();
+        }
+    });
+
+    if (sonido) {
+        sonido.addEventListener('click', () => {
+            video.muted = !video.muted;
+            sonido.setAttribute('aria-pressed', String(!video.muted));
+            sonido.textContent = video.muted ? 'Activar sonido' : 'Quitar sonido';
+            if (video.paused) {
+                pausadoAMano = false;
+                video.play().catch(() => {});
+            }
+        });
+    }
+
+    new IntersectionObserver(([entrada]) => {
+        if (!entrada.isIntersecting) {
+            video.pause();
+        } else if (!pausadoAMano) {
+            video.play().catch(() => {});
+        }
+    }, { threshold: 0.5 }).observe(video);
+});
+
 // Formulario de cotización: arma el mensaje y lo abre en WhatsApp
 const WHATSAPP_NUMBER = '584125284595';
 const formulario = document.getElementById('cotizacion');
