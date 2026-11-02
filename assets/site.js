@@ -6,7 +6,7 @@ document.querySelectorAll('[data-anio]').forEach((el) => {
 const carrusel = document.querySelector('[data-carrusel]');
 
 if (carrusel) {
-    const ESPERA_ROTACION = 7000;
+    const ESPERA_ROTACION = 10000;
     const diapositivas = [...carrusel.querySelectorAll('[data-diapositiva]')];
     const puntos = [...carrusel.querySelectorAll('[data-ir]')];
     const botonPausa = carrusel.querySelector('[data-pausa]');
@@ -146,8 +146,7 @@ if (formulario) {
             'Empresa: ' + datos.get('empresa').trim(),
             'Contacto: ' + datos.get('persona').trim(),
             'WhatsApp / Teléfono: ' + datos.get('telefono').trim(),
-            'Empleados: ' + textoOpcion('empleados'),
-            'Plan de interés: ' + textoOpcion('plan')
+            'Empleados: ' + textoOpcion('empleados')
         ];
 
         const mensaje = datos.get('mensaje').trim();
